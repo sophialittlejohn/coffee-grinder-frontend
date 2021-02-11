@@ -1,0 +1,7 @@
+# Ignore artifacts:	
+build	
+coverage	
+.next	
+node_modules	
+server/prisma/migrations	
+server/node_modules 
