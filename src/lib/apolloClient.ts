@@ -26,9 +26,15 @@ const authLinkWithNextContext = (context: NextPageContext | null) =>
     return forward(operation);
   });
 
-const httpLink = new HttpLink({
-  uri: "https://coffee-grindr.herokuapp.com/", // Server URL (must be absolute)
+// use link from to switch between prod and dev based on NODE_ENV
+const httpLinkProd = new HttpLink({
+  uri: process.env.BACKEND_PRDO_URL, // Server URL (must be absolute)
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+});
+
+const httpLinkDev = new HttpLink({
+  uri: process.env.BACKEND_DEV_URL,
+  credentials: "same-origin",
 });
 
 function createApolloClient(context: NextPageContext | null) {
@@ -36,7 +42,11 @@ function createApolloClient(context: NextPageContext | null) {
 
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: authLink.concat(httpLink),
+    link: authLink.split(
+      () => process.env.NODE_ENV === "production",
+      httpLinkProd,
+      httpLinkDev
+    ),
     cache: new InMemoryCache(),
   });
 }
