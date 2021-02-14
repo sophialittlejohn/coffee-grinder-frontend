@@ -14,12 +14,6 @@ Visit http://localhost:3000.
 
 Picture are stored in [Firebase Storage](https://console.firebase.google.com/project/coffee-grindr/storage/coffee-grindr.appspot.com/files)
 
-## Backend
+# Deployment
 
-Prisma serves the GraphQL API in a docker container locally.
-
-Navigate to the folder: `cd server/`
-
-To spin up the docker container run `docker-compose up`. This will build and run the backend container and the container holding the postgres db.
-
-The GraphQL playground should be available at http://localhost:4000.
+Push to main to deploy to vercel: https://vercel.com/sophialittlejohn/coffee-grindr-frontend
