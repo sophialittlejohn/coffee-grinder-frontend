@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import {
   ApolloClient,
   ApolloLink,
-  from,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
@@ -26,20 +25,19 @@ const authLinkWithNextContext = (context: NextPageContext | null) =>
     return forward(operation);
   });
 
-// use link from to switch between prod and dev based on NODE_ENV
 const httpLinkProd = new HttpLink({
-  uri: process.env.BACKEND_PRDO_URL, // Server URL (must be absolute)
+  uri: "https://coffee-grindr.herokuapp.com/", // Server URL (must be absolute)
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+
 });
 
 const httpLinkDev = new HttpLink({
-  uri: process.env.BACKEND_DEV_URL,
+  uri: 'http://localhost:4000',
   credentials: "same-origin",
 });
 
 function createApolloClient(context: NextPageContext | null) {
   const authLink = authLinkWithNextContext(context);
-
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: authLink.split(
