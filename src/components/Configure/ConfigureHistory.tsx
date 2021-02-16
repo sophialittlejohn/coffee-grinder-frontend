@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styled from "styled-components";
 import { H3 } from "../../elements/Heading";
 import { Text } from "../../elements/Text";
@@ -24,7 +25,7 @@ export const ConfigureHistory: React.FC<ConfigureHistoryProps> = ({
       <H3 size="14px">Amount</H3>
       <H3 size="14px">Status</H3>
       {history.map((entry) => (
-        <>
+        <Fragment key={`${entry.id}-${entry.createdAt}`}>
           <Text size="12px">
             {new Date(Number(entry.createdAt)).toLocaleDateString()}
           </Text>
@@ -33,7 +34,7 @@ export const ConfigureHistory: React.FC<ConfigureHistoryProps> = ({
           <Text size="12px">
             {entry.status.toLocaleLowerCase().replace("_", " ")}
           </Text>
-        </>
+        </Fragment>
       ))}
     </StyledGrid>
   );
