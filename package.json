@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.8",
+    "@cloudinary/base": "^1.0.0-beta.0",
+    "@cloudinary/react": "^1.0.0-beta.0",
     "firebase": "^7.24.0",
     "graphql": "^15.5.0",
     "next": "10.0.6",

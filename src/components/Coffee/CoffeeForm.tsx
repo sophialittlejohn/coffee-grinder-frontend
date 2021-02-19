@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { Coffee } from "./types";
 import { CREATE_COFFEE_MUTATION } from "./queries";
 import { UploadFile } from "../../elements/UploadFile";
-import { storage } from "../../lib/firebase/index";
 import { Button } from "../../elements/Button";
 import { useUserContext } from "../../lib/userContext";
 import styled from "styled-components";
@@ -45,7 +44,7 @@ type CreateCoffee = {
   createCoffee: Coffee;
 };
 
-interface CoffeeFormProps {}
+interface CoffeeFormProps { }
 
 export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   const [name, setName] = useState<string>();
@@ -72,13 +71,31 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
     { onCompleted }
   );
 
-  const handleFireBaseUpload = async () => {
-    if (photo && name) {
-      const task = storage
-        .ref(`/coffee/${photo.name}.${name.replace(" ", "")}`)
-        .put(photo);
-      // TODO: fix this
-      return Promise.resolve();
+  const cloudinaryUpload = async () => {
+    if (photo) {
+      try {
+        const formData = new FormData();
+        formData.append("file", photo);
+        formData.append("upload_preset", "coffee-image");
+        formData.append("api_key", process.env.CLOUDINARY_API_KEY as string);
+
+        // TODO: use env
+        fetch("https://api.cloudinary.com/v1_1/coffee-grinder/image/upload", {
+          method: "POST",
+          body: formData
+        })
+          .then((response) => {
+            return response.text();
+          })
+          .then((data) => {
+            // TODO: do something with data
+            console.log('data', data)
+          });
+
+      } catch (error) {
+        console.info('this is the stupid error that occured', error.message)
+      }
+
     } else {
       return Promise.reject("unable to upload ");
     }
@@ -89,7 +106,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   ) => {
     e.preventDefault();
     try {
-      await handleFireBaseUpload();
+      await cloudinaryUpload();
       createCoffeeMutation({
         variables: {
           name,
@@ -112,6 +129,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
     <StyledForm gap="24px" justifyContent="flex-end">
       <Stack gap="24px">
         <UploadFile setPhoto={setPhoto} />
+        {/* <Button onClick={cloudinaryUpload}>Upload</Button> */}
       </Stack>
       <Input
         type="text"
