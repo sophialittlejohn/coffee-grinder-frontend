@@ -29,13 +29,14 @@ const BaseButton = styled.button<ButtonProps>`
 const PrimaryButton = styled(BaseButton)`
   background-color: #c4c4c4;
   color: ${COLORS.black};
+  ${(props) => props.styles}
 `;
 
 const SecondaryButton = styled(BaseButton)`
   color: #432b1b;
   font-weight: bold;
   background-color: ${COLORS.champain};
-  ${(props) => props.styles}
+  ${(props) => props.styles};
 `;
 
 const GhostButton = styled.button<ButtonProps>`
@@ -43,19 +44,20 @@ const GhostButton = styled.button<ButtonProps>`
   background-color: transparent;
   text-decoration: underline;
   font-size: 16px;
-  ${(props) => props.styles}
+  ${(props) => props.styles};
 `;
 
 const IconButton = styled(BaseButton)`
   border: transparent;
   line-height: 0;
   background-color: transparent;
-
+  
   &:disabled {
     border: none;
     color: inherit;
     pointer-events: none;
   }
+  ${(props) => props.styles};
 `;
 
 export const Button: React.FC<ButtonProps> = ({
