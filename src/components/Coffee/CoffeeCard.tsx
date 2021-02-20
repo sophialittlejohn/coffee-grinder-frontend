@@ -64,23 +64,24 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
           <H2 fontWeight="bold" size="18px" styles={{
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
-            overflow: "hidden"
+            overflow: "hidden",
+            lineHeight: 1.5
           }}>{name}</H2>
           {variant === "configure" && (
             <StyledGrid>
               <div>
-                <Text size="18px" styles={{ lineHeight: 1 }}>Grind size</Text>
-                <Text size="18px" styles={{ lineHeight: 1 }}>Amount</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>Grind size</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>Amount</Text>
               </div>
               <div>
-                <Text size="18px" styles={{ lineHeight: 1 }} color="black">{size || 0}</Text>
-                <Text size="18px" styles={{ lineHeight: 1 }}>{amount || 0} sec</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }} color="black">{size || 0}</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>{amount || 0} sec</Text>
               </div>
             </StyledGrid>
           )}
           {variant === "buy" && (
             <Stack>
-              <Text color="black" italic>
+              <Text color="black" italic styles={{ lineHeight: 1.5 }}>
                 {coffee.street} {coffee.zip} {coffee.city}
               </Text>
               <Inline gap="4px" alignItems="baseline">
