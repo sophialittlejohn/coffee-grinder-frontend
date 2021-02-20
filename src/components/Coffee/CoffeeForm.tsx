@@ -44,7 +44,7 @@ type CreateCoffee = {
   createCoffee: Coffee;
 };
 
-interface CoffeeFormProps { }
+interface CoffeeFormProps {}
 
 export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   const [name, setName] = useState<string>();
@@ -82,20 +82,18 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
         // TODO: use env
         fetch("https://api.cloudinary.com/v1_1/coffee-grinder/image/upload", {
           method: "POST",
-          body: formData
+          body: formData,
         })
           .then((response) => {
             return response.text();
           })
           .then((data) => {
             // TODO: do something with data
-            console.log('data', data)
+            console.log("data", data);
           });
-
       } catch (error) {
-        console.info('this is the stupid error that occured', error.message)
+        console.info("this is the stupid error that occured", error.message);
       }
-
     } else {
       return Promise.reject("unable to upload ");
     }

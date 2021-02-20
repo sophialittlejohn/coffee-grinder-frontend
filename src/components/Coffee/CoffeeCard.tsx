@@ -28,8 +28,7 @@ const StyledStack = styled(Stack)`
 const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-`
-
+`;
 
 interface CoffeeCardProps {
   coffee: Coffee;
@@ -56,26 +55,45 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
   return (
     <StyledCard>
       <Inline>
-        <div style={{ position: "relative", minWidth: '104px' }}>
-          <Image height="129" width="104" alt="coffee" src="https://res.cloudinary.com/coffee-grinder/image/upload/v1613857811/coffee/e25ufze3hynn6n0l5woy.jpg" />
+        <div style={{ position: "relative", minWidth: "104px" }}>
+          <Image
+            height="129"
+            width="104"
+            alt="coffee"
+            src="https://res.cloudinary.com/coffee-grinder/image/upload/v1613857811/coffee/e25ufze3hynn6n0l5woy.jpg"
+          />
         </div>
         <StyledStack justifyContent="space-between" gap="4px">
           <Rating maxRating={5} rating={rating} />
-          <H2 fontWeight="bold" size="18px" styles={{
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            lineHeight: 1.5
-          }}>{name}</H2>
+          <H2
+            fontWeight="bold"
+            size="18px"
+            styles={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              lineHeight: 1.5,
+            }}
+          >
+            {name}
+          </H2>
           {variant === "configure" && (
             <StyledGrid>
               <div>
-                <Text size="18px" styles={{ lineHeight: 1.5 }}>Grind size</Text>
-                <Text size="18px" styles={{ lineHeight: 1.5 }}>Amount</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>
+                  Grind size
+                </Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>
+                  Amount
+                </Text>
               </div>
               <div>
-                <Text size="18px" styles={{ lineHeight: 1.5 }} color="black">{size || 0}</Text>
-                <Text size="18px" styles={{ lineHeight: 1.5 }}>{amount || 0} sec</Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }} color="black">
+                  {size || 0}
+                </Text>
+                <Text size="18px" styles={{ lineHeight: 1.5 }}>
+                  {amount || 0} sec
+                </Text>
               </div>
             </StyledGrid>
           )}

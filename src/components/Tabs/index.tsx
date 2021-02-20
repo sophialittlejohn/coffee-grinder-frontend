@@ -16,7 +16,7 @@ type TabsComposition = {
   Content: React.FC<TabId>;
 };
 
-const StyledTab = styled(Button) <{ active: boolean }>`
+const StyledTab = styled(Button)<{ active: boolean }>`
   background: transparent;
   border: none;
   width: 50%;

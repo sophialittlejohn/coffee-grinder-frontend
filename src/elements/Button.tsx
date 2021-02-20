@@ -51,7 +51,7 @@ const IconButton = styled(BaseButton)`
   border: transparent;
   line-height: 0;
   background-color: transparent;
-  
+
   &:disabled {
     border: none;
     color: inherit;
