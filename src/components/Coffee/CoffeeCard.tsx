@@ -22,7 +22,14 @@ const StyledCard = styled.div`
 
 const StyledStack = styled(Stack)`
   padding: 16px;
+  overflow: hidden;
 `;
+
+const StyledGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`
+
 
 interface CoffeeCardProps {
   coffee: Coffee;
@@ -48,34 +55,28 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
 
   return (
     <StyledCard>
-      <Inline alignItems="center" gap="12px">
-        <div style={{ height: "129px", width: "104px", position: "relative" }}>
-          <Image layout="fill" alt="coffee" src={image} />
+      <Inline>
+        <div style={{ position: "relative", minWidth: '104px' }}>
+          <Image height="129" width="104" alt="coffee" src="https://res.cloudinary.com/coffee-grinder/image/upload/v1613857811/coffee/e25ufze3hynn6n0l5woy.jpg" />
         </div>
         <StyledStack justifyContent="space-between" gap="4px">
           <Rating maxRating={5} rating={rating} />
-          <H2 fontWeight="bold">{name}</H2>
+          <H2 fontWeight="bold" size="18px" styles={{
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden"
+          }}>{name}</H2>
           {variant === "configure" && (
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <Text>Grind size</Text>
-                  </td>
-                  <td>
-                    <Text>{size}</Text>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Text>Amount</Text>
-                  </td>
-                  <td>
-                    <Text>{amount}</Text>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <StyledGrid>
+              <div>
+                <Text size="18px" styles={{ lineHeight: 1 }}>Grind size</Text>
+                <Text size="18px" styles={{ lineHeight: 1 }}>Amount</Text>
+              </div>
+              <div>
+                <Text size="18px" styles={{ lineHeight: 1 }} color="black">{size || 0}</Text>
+                <Text size="18px" styles={{ lineHeight: 1 }}>{amount || 0} sec</Text>
+              </div>
+            </StyledGrid>
           )}
           {variant === "buy" && (
             <Stack>
