@@ -9,7 +9,10 @@ export const COFFEE_LIST_QUERY = gql`
       street
       city
       zip
-      photo
+      photo {
+        asset_id
+        secure_url
+      }
       coffeeMachine {
         id
         name
@@ -39,7 +42,6 @@ export const COFFEE_DETAIL_QUERY = gql`
       street
       city
       zip
-      photo
       configurations {
         id
         size
@@ -72,7 +74,10 @@ export const UPDATE_COFFEE_MUTATION = gql`
       street
       city
       zip
-      photo
+      photo {
+        asset_id
+        secure_url
+      }
       configurations {
         id
         size
@@ -91,7 +96,7 @@ export const CREATE_COFFEE_MUTATION = gql`
     $city: String
     $zip: Int
     $coffeeMachineId: Int
-    $photo: String
+    $photo: CloudinaryImageInput
     $price: Int
     $grams: Int
     $rating: Int
@@ -113,7 +118,10 @@ export const CREATE_COFFEE_MUTATION = gql`
       street
       city
       zip
-      photo
+      photo {
+        asset_id
+        secure_url
+      }
       coffeeMachine {
         id
         name

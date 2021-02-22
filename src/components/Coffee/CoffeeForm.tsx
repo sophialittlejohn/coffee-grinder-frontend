@@ -44,7 +44,7 @@ type CreateCoffee = {
   createCoffee: Coffee;
 };
 
-interface CoffeeFormProps {}
+interface CoffeeFormProps { }
 
 export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   const [name, setName] = useState<string>();
@@ -68,7 +68,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
 
   const [createCoffeeMutation, { error }] = useMutation<CreateCoffee>(
     CREATE_COFFEE_MUTATION,
-    { onCompleted }
+    { onCompleted },
   );
 
   const cloudinaryUpload = async () => {
@@ -80,17 +80,15 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
         formData.append("api_key", process.env.CLOUDINARY_API_KEY as string);
 
         // TODO: use env
-        fetch("https://api.cloudinary.com/v1_1/coffee-grinder/image/upload", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            return response.text();
-          })
-          .then((data) => {
-            // TODO: do something with data
-            console.log("data", data);
-          });
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/coffee-grinder/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await res.text();
+        return JSON.parse(data);
       } catch (error) {
         console.info("this is the stupid error that occured", error.message);
       }
@@ -104,7 +102,8 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   ) => {
     e.preventDefault();
     try {
-      await cloudinaryUpload();
+      // tags are not in db yet
+      const { tags, ...image } = await cloudinaryUpload();
       createCoffeeMutation({
         variables: {
           name,
@@ -115,7 +114,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
           grams,
           rating,
           coffeeMachineId: Number(user?.coffeeMachines[0].id),
-          photo: photo?.name || "",
+          photo: image,
         },
       });
     } catch (error) {

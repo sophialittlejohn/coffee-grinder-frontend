@@ -36,19 +36,7 @@ interface CoffeeCardProps {
 }
 
 export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
-  // place image url directly in db to prevent loading here
-  const [image, setImage] = useState<string>(FALLBACK_COFFEE_URL);
-
-  useEffect(() => {
-    storage
-      .ref(`coffee/${coffee.photo}.${coffee.name.replace(" ", "")}`)
-      .getDownloadURL()
-      .then((url) => {
-        setImage(url);
-      });
-  }, [coffee.photo]);
-
-  const { name, rating, configurations } = coffee;
+  const { name, rating, configurations, photo } = coffee;
   const { size, amount } =
     configurations.length > 0 ? configurations[0] : { size: "", amount: "" };
 
@@ -60,7 +48,7 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
             height="129"
             width="104"
             alt="coffee"
-            src="https://res.cloudinary.com/coffee-grinder/image/upload/v1613857811/coffee/e25ufze3hynn6n0l5woy.jpg"
+            src={photo.secure_url}
           />
         </div>
         <StyledStack justifyContent="space-between" gap="4px">

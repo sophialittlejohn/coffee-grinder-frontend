@@ -17,7 +17,7 @@ export interface Coffee extends Address {
   id: number;
   name: string;
   rating: number;
-  photo: string | CloudinaryImage;
+  photo: CloudinaryImage;
   coffeeMachine: CoffeeMachine;
   prices: Price[];
   configurations: Configuration[];
