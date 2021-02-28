@@ -95,10 +95,12 @@ export const Input: React.FC<InputProps> = ({
   const [focused, setFocused] = useState(false);
 
   useEffect(() => {
-    if (value === "") {
+    if (!value) {
       setFocused(false);
     } else {
-      if (!focused) setFocused(true);
+      if (!focused) {
+        setFocused(true);
+      }
     }
   }, [value]);
 
