@@ -28,11 +28,10 @@ const authLinkWithNextContext = (context: NextPageContext | null) =>
 const httpLinkProd = new HttpLink({
   uri: "https://coffee-grindr.herokuapp.com/", // Server URL (must be absolute)
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-
 });
 
 const httpLinkDev = new HttpLink({
-  uri: 'http://localhost:4000',
+  uri: 'http://localhost:4000/',
   credentials: "same-origin",
 });
 
