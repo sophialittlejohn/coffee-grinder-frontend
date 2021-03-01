@@ -56,16 +56,16 @@ export const UploadFile: React.FC<UploadFileProps> = ({
       {preview ? (
         <StyledImg src={preview} height={130} width={110} alt="smt" />
       ) : (
-        <StyledInputWrapper>
-          <StyledLabel htmlFor="file">
-            <StyledLabelInner justifyContent="center" alignItems="center">
-              <Camera size={38} />
-              <Text>Add a picture</Text>
-            </StyledLabelInner>
-          </StyledLabel>
-        </StyledInputWrapper>
-      )}
-      <StyledInput onChange={handleImageAsFile} type="file" id="file" />
+          <StyledInputWrapper>
+            <StyledLabel htmlFor="file">
+              <StyledLabelInner justifyContent="center" alignItems="center">
+                <Camera size={38} />
+                <Text>Add a picture</Text>
+              </StyledLabelInner>
+            </StyledLabel>
+          </StyledInputWrapper>
+        )}
+      <StyledInput accept="image/*" onChange={handleImageAsFile} type="file" id="file" />
       {children}
     </>
   );
