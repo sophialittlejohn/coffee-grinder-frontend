@@ -5,7 +5,6 @@ import { Image } from "../../elements/Image";
 import { Stack } from "../../layout/Stack";
 import { Rating } from "../Rating";
 import { Coffee } from "./types";
-import { storage } from "../../lib/firebase/index";
 import { FALLBACK_COFFEE_URL } from "../../lib/constants";
 import { Inline } from "../../layout/Inline";
 import { useMutation } from "@apollo/client";
@@ -23,15 +22,6 @@ export const CoffeeDetail: React.FC<CoffeeDetailProps> = ({ coffee }) => {
   const [clientCoffee, setClientCoffee] = useState(coffee);
   const [image, setImage] = useState<string>(FALLBACK_COFFEE_URL);
   const [grindType, setGrindType] = useState<GrindType>("single");
-
-  useEffect(() => {
-    storage
-      .ref(`coffee/${coffee.photo || "default-coffee.png"}`)
-      .getDownloadURL()
-      .then((url) => {
-        setImage(url);
-      });
-  }, [coffee]);
 
   const [updateCoffeeMutation, { data }] = useMutation<any>(
     UPDATE_COFFEE_MUTATION

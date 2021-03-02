@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Text } from "../../elements/Text";
 import { H2, H3 } from "../../elements/Heading";
-// import { Image } from "../../elements/Image";
 import Image from "next/image";
 import { Stack } from "../../layout/Stack";
 import { formatCurrency } from "../../lib/utils/formatCurrency";
 import { Rating } from "../Rating";
 import { Coffee } from "./types";
-import { storage } from "../../lib/firebase/index";
 import { FALLBACK_COFFEE_URL } from "../../lib/constants";
 import { Inline } from "../../layout/Inline";
 import { COLORS } from "../../materials/colors";
@@ -48,7 +46,7 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
             height="129"
             width="104"
             alt="coffee"
-            src={photo.secure_url}
+            src={photo.secure_url || FALLBACK_COFFEE_URL}
           />
         </div>
         <StyledStack justifyContent="space-between" gap="4px">

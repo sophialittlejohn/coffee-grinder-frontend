@@ -10,9 +10,9 @@ Run `yarn build` and `yarn start` to create a production build and to run it.
 
 Visit http://localhost:3000.
 
-### Firebase Storage for pictures
+### Cloudinarz Storage for pictures
 
-Picture are stored in [Firebase Storage](https://console.firebase.google.com/project/coffee-grindr/storage/coffee-grindr.appspot.com/files)
+Picture are stored in [Cloudinary](https://cloudinary.com/console/c-b8caed343b64747bcc3511a413d883)
 
 # Deployment
 
