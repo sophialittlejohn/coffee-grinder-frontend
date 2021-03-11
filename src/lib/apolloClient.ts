@@ -26,7 +26,7 @@ const authLinkWithNextContext = (context: NextPageContext | null) =>
   });
 
 const httpLinkProd = new HttpLink({
-  uri: "https://coffee-grindr.herokuapp.com/", // Server URL (must be absolute)
+  uri: "https://coffee-grinder.herokuapp.com/", // Server URL (must be absolute)
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
 });
 
