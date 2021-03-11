@@ -34,7 +34,7 @@ type CloudinaryImage = {
   format: string;
   resource_type: string;
   created_at: string;
-  tags: [];
+  // tags: [];
   bytes: number;
   type: string;
   etag: string;
