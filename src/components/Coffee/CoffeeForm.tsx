@@ -1,18 +1,18 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { Text } from "../../elements/Text";
-import { Input } from "../../elements/Input";
-import { Stack } from "../../layout/Stack";
+import styled from "styled-components";
 import { useRouter } from "next/router";
 import { Coffee } from "./types";
 import { CREATE_COFFEE_MUTATION } from "./queries";
-import { UploadFile } from "../../elements/UploadFile";
-import { Button } from "../../elements/Button";
 import { useUserContext } from "../../lib/userContext";
-import styled from "styled-components";
-import { Rating } from "../Rating";
+import { Stack } from "../../layout/Stack";
 import { Inline } from "../../layout/Inline";
+import { Text } from "../../elements/Text";
+import { Input } from "../../elements/Input";
 import { Select } from "../../elements/Select";
+import { UploadPhoto } from "../../elements/UploadPhoto";
+import { Button } from "../../elements/Button";
+import { Rating } from "../Rating";
 
 const GRAM_OPTIONS = [
   {
@@ -34,10 +34,6 @@ const StyledForm = styled(Stack)`
   padding: 46px 30px 0px 30px;
   width: initial !important;
   // margin-top: 46px;
-`;
-
-const StyledRating = styled(Rating)`
-  justify-content: center;
 `;
 
 type CreateCoffee = {
@@ -125,8 +121,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   return (
     <StyledForm gap="24px" justifyContent="flex-end">
       <Stack gap="24px">
-        <UploadFile setPhoto={setPhoto} />
-        {/* <Button onClick={cloudinaryUpload}>Upload</Button> */}
+        <UploadPhoto setPhoto={setPhoto} />
       </Stack>
       <Input
         type="text"
