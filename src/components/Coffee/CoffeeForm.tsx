@@ -173,7 +173,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
       <Button variant="secondary" onClick={handleSubmitForm}>
         Save
       </Button>
-      {error && <Text>An error occured {error.message}</Text>}
+      {error && <><Text>An error occured {error.message}</Text><Text>{JSON.stringify(error)}</Text></>}
     </StyledForm>
   );
 };
