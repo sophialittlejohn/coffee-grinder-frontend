@@ -11,7 +11,7 @@ import { Inline } from "../../layout/Inline";
 import { useQuery } from "@apollo/client";
 import { initializeApollo } from "../../lib/apolloClient";
 import { H2 } from "../../elements/Heading";
-import { useScroll } from "../../lib/hooks/useScroll";
+// import { useScroll } from "../../lib/hooks/useScroll";
 import { H1 } from "../../elements/Heading";
 import Image from "next/image";
 import { Text } from "../../elements/Text";
@@ -20,17 +20,35 @@ import { Tabs } from "../../components/Tabs";
 
 const PagePadding = styled.div`
   padding: 16px 16px;
+  position: relative;
+  top: -${HEADER_MAX_HEIGHT}px;
 `;
+
+const StyledContentWrapper = styled.div`
+  position: relative;
+  top: -${HEADER_MAX_HEIGHT}px;
+`
 
 const StyledHeaderWrapper = styled.div`
-  position: relative;
-  max-width: 600px;
-  min-height: 216px;
-  height: 100%;
+  position: sticky;
+  top: -100px;
+  z-index: 1;
+
+  @media (min-width: 500px) {
+    top: -200px;
+  }
 `;
 
+const StyledTabsWrapper = styled(Inline)`
+  height: ${HEADER_MAX_HEIGHT}px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  top: -${HEADER_MAX_HEIGHT + 8}px;
+`
+
 const StyledBackground = styled.div`
-  position: fixed;
   z-index: -1;
   margin: 0 auto;
 `;
@@ -40,82 +58,51 @@ const StyledGreeting = styled(H1)`
   padding-left: 16px;
   font-weight: normal;
   z-index: 10;
-  position: relative;
-
-  @media (min-width: 410px) {
-    padding: 10px 16px;
-  }
-
-  @media (min-width: 519px) {
-    font-size: 55px;
-    padding: 33px 16px;
-  }
-
-  @media (min-width: 599px) {
-    font-size: 73px;
-    padding: 35px 16px;
+  position: absolute;
+  top: 40px;
+  
+  @media (min-width: 500px) {
+    top: 90px;
+    font-size: 72px;
   }
 `;
 
-interface CoffeeProps {}
+interface CoffeeProps { }
 
 const CoffeePage: NextPage<CoffeeProps> = () => {
   const timeOfDay = useTimeOfDay();
-  const { scrollY, windowWidth } = useScroll();
+  // const { scrollY, windowWidth } = useScroll();
+  // console.log("🚀 ~ scrollY", scrollY)
   const { data, error, loading } = useQuery(COFFEE_LIST_QUERY);
 
   return (
     <PageLayout title="" withAuth>
-      <Tabs defaultActive="configure">
-        <StyledHeaderWrapper>
-          <StyledBackground
-            style={{
-              top:
-                scrollY <= windowWidth * 0.304
-                  ? `-${scrollY}px`
-                  : -(windowWidth * 0.304),
-              zIndex: scrollY > 5 ? 1 : -1,
-            }}
-          >
-            <Image
-              src={`/assets/${timeOfDay}-bg.jpg`}
-              height={345} // scaled 1.6
-              width={600} // scaled 1.6
-            />
-          </StyledBackground>
-        </StyledHeaderWrapper>
-        <div style={{ position: "relative", bottom: "208px" }}>
-          <StyledGreeting size="48px" color="white" fontWeight="regular">
-            Good {timeOfDay}
-          </StyledGreeting>
-          <Inline
-            // @ts-ignore
-            style={{
-              height: `${HEADER_MAX_HEIGHT}px`,
-              position: "sticky",
-              zIndex: 10,
-              width: "100%",
-              maxWidth: "600px",
-              top:
-                scrollY === 0
-                  ? HEADER_TABS_HEIGHT
-                  : scrollY < HEADER_TABS_HEIGHT - HEADER_MAX_HEIGHT
-                  ? `${HEADER_TABS_HEIGHT - scrollY}px`
-                  : HEADER_MAX_HEIGHT + 7,
-            }}
-          >
-            <Tabs.Label id="configure">
-              <Text bold color="white">
-                Configure
+      <StyledContentWrapper>
+        <Tabs defaultActive="configure">
+          <StyledHeaderWrapper>
+            <StyledGreeting size="48px" color="white" fontWeight="regular">
+              Good {timeOfDay}
+            </StyledGreeting>
+            <StyledBackground>
+              <Image
+                src={`/assets/${timeOfDay}-bg.jpg`}
+                height={345} // scaled 1.6
+                width={600} // scaled 1.6 
+              />
+            </StyledBackground>
+            <StyledTabsWrapper >
+              <Tabs.Label id="configure">
+                <Text bold color="white">
+                  Configure
               </Text>
-            </Tabs.Label>
-            <Tabs.Label id="buy">
-              <Text bold color="white">
-                Buy
+              </Tabs.Label>
+              <Tabs.Label id="buy">
+                <Text bold color="white">
+                  Buy
               </Text>
-            </Tabs.Label>
-          </Inline>
-
+              </Tabs.Label>
+            </StyledTabsWrapper>
+          </StyledHeaderWrapper>
           <PagePadding>
             {loading ? (
               <H2>Loading...</H2>
@@ -152,14 +139,15 @@ const CoffeePage: NextPage<CoffeeProps> = () => {
               </>
             )}
           </PagePadding>
-        </div>
-      </Tabs>
+        </Tabs>
+      </StyledContentWrapper>
     </PageLayout>
   );
 };
 
 export async function getServerSideProps(context: NextPageContext) {
   const apolloClient = initializeApollo(context);
+  // verify token, send user data
 
   try {
     await apolloClient.query({
