@@ -8,7 +8,8 @@ import { COLORS } from "../materials/colors";
 const StyledUploadWrapper = styled.div`
   position: relative;
   margin: 0 auto;
-  min-height: 130px;
+  height: 130px;
+  overflow: hidden;
 `
 
 const StyledInputWrapper = styled(Stack) <{ visibile: boolean }>`
@@ -43,6 +44,8 @@ const StyledImg = styled.img`
   position: absolute;
   top: 0;
   z-index: -1;
+  border: 1px solid ${COLORS.black};
+  border-radius: 4px;
 `;
 
 type UploadPhotoProps = {
