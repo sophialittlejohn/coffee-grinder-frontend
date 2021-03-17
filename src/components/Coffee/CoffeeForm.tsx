@@ -33,7 +33,6 @@ const GRAM_OPTIONS = [
 const StyledForm = styled(Stack)`
   padding: 46px 30px 0px 30px;
   width: initial !important;
-  // margin-top: 46px;
 `;
 
 type CreateCoffee = {
@@ -43,10 +42,10 @@ type CreateCoffee = {
 interface CoffeeFormProps { }
 
 export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
-  const [name, setName] = useState<string>();
-  const [street, setStreet] = useState<string>();
+  const [name, setName] = useState("");
+  const [street, setStreet] = useState("");
   const [zip, setZip] = useState<number | "">("");
-  const [city, setCity] = useState<string>();
+  const [city, setCity] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [grams, setGrams] = useState<number>(GRAM_OPTIONS[0].value);
   const [rating, setRating] = useState<number>();
@@ -143,7 +142,6 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
           onChange={(value) => setZip(Number(value) || "")}
           width="75px"
         />
-
         <Input
           type="text"
           label="City"
