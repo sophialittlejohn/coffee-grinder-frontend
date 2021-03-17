@@ -45,9 +45,9 @@ interface CoffeeFormProps { }
 export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
   const [name, setName] = useState<string>();
   const [street, setStreet] = useState<string>();
-  const [zip, setZip] = useState<number>();
+  const [zip, setZip] = useState<number | "">("");
   const [city, setCity] = useState<string>();
-  const [price, setPrice] = useState<number>();
+  const [price, setPrice] = useState<number | "">("");
   const [grams, setGrams] = useState<number>(GRAM_OPTIONS[0].value);
   const [rating, setRating] = useState<number>();
   const [photo, setPhoto] = useState<File>();
@@ -140,7 +140,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
           type="number"
           label="Zip"
           value={zip}
-          onChange={(value) => setZip(Number(value))}
+          onChange={(value) => setZip(Number(value) || "")}
           width="75px"
         />
 
@@ -157,7 +157,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
           type="number"
           label="Price"
           value={price}
-          onChange={(value) => setPrice(Number(value))}
+          onChange={(value) => setPrice(Number(value) || "")}
           width="75px"
         />{" "}
         <Text>/</Text>
