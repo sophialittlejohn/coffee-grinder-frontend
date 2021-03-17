@@ -11,11 +11,10 @@ import { Inline } from "../../layout/Inline";
 import { useQuery } from "@apollo/client";
 import { initializeApollo } from "../../lib/apolloClient";
 import { H2 } from "../../elements/Heading";
-// import { useScroll } from "../../lib/hooks/useScroll";
 import { H1 } from "../../elements/Heading";
 import Image from "next/image";
 import { Text } from "../../elements/Text";
-import { HEADER_MAX_HEIGHT, HEADER_TABS_HEIGHT } from "../../lib/constants";
+import { HEADER_MAX_HEIGHT } from "../../lib/constants";
 import { Tabs } from "../../components/Tabs";
 
 const PagePadding = styled.div`
@@ -71,8 +70,6 @@ interface CoffeeProps { }
 
 const CoffeePage: NextPage<CoffeeProps> = () => {
   const timeOfDay = useTimeOfDay();
-  // const { scrollY, windowWidth } = useScroll();
-  // console.log("🚀 ~ scrollY", scrollY)
   const { data, error, loading } = useQuery(COFFEE_LIST_QUERY);
 
   return (

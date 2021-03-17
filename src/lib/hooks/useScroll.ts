@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+/**
+ * 
+ * legacy, verify if still needed
+ */
 export const useScroll = () => {
   const [scrollY, setScrollY] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
