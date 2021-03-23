@@ -15,18 +15,21 @@ const StyledGrid = styled.div`
   grid-template-columns: 2fr 2fr 1fr 1fr;
 `;
 
-type GrindSizeProps = {};
 
-export const GrindSize: React.FC<GrindSizeProps> = () => {
+export const GrindSize: React.FC = () => {
   const { size, configure } = useConfiguration();
 
   const handleUpdateGrind = (type: "up" | "down") => {
-    const newSize = type === "up" ? size + 1 : size - 1;
-    configure("size", newSize);
+    let sizeAsNumber = parseInt(size);
+    if (size === "" || size === undefined) {
+      sizeAsNumber = 0;
+    }
+    const newSize = type === "up" ? sizeAsNumber + 1 : sizeAsNumber - 1;
+    configure({ type: "size", value: `${newSize}` });
   };
 
-  const handleInputGrind = (newValue: number) => {
-    configure("size", Number(newValue) || 0);
+  const handleInputGrind = (newValue: string) => {
+    configure({ type: "size", value: newValue });
   };
 
   return (
@@ -34,12 +37,12 @@ export const GrindSize: React.FC<GrindSizeProps> = () => {
       <Text>Grind size</Text>
       <Input
         isInline
-        size="small"
         label=""
         value={size}
-        type="number"
+        type="text"
         width="60px"
-        onChange={(newValue) => handleInputGrind(newValue as number)}
+        onChange={(newValue) => handleInputGrind(newValue)}
+        errorMessage={parseInt(size) < 0 ? "Invalid value" : undefined}
       />
       <Button variant="icon" onClick={() => handleUpdateGrind("down")}>
         <ArrowDownCircleFill size={28} />

@@ -15,18 +15,17 @@ const StyledGrid = styled.div`
   align-items: center;
 `;
 
-type GrindAmountProps = {};
-
-export const GrindAmount: React.FC<GrindAmountProps> = () => {
+export const GrindAmount: React.FC = () => {
   const { amount, configure } = useConfiguration();
 
   const handleUpdateGrind = (type: "up" | "down") => {
-    const newAmount = type === "up" ? amount + 0.5 : amount - 0.5;
-    configure("amount", newAmount);
+    const floatAmount = parseFloat(amount);
+    const newAmount = type === "up" ? floatAmount + 0.5 : floatAmount - 0.5;
+    configure({ type: "amount", value: `${newAmount}` });
   };
 
   const handleInputGrind = (newValue: number) => {
-    configure("amount", Number(newValue) || 0);
+    configure({ type: "amount", value: `${newValue}` });
   };
 
   return (
@@ -36,9 +35,10 @@ export const GrindAmount: React.FC<GrindAmountProps> = () => {
         <Input
           width="60px"
           label=""
-          value={amount ? amount.toFixed(1) : 0.0}
+          value={amount}
           type="number"
-          onChange={(newValue) => handleInputGrind(newValue as number)}
+          onChange={(newValue) => handleInputGrind(parseFloat(newValue))}
+          errorMessage={parseFloat(amount) < 0 ? "Invalid value" : undefined}
         />
         <Text>sec</Text>
       </Inline>
