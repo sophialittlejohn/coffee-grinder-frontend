@@ -26,7 +26,7 @@ const PagePadding = styled.div`
 const StyledContentWrapper = styled.div`
   position: relative;
   top: -${HEADER_MAX_HEIGHT}px;
-`
+`;
 
 const StyledHeaderWrapper = styled.div`
   position: sticky;
@@ -45,7 +45,7 @@ const StyledTabsWrapper = styled(Inline)`
   width: 100%;
   max-width: 600px;
   top: -${HEADER_MAX_HEIGHT + 8}px;
-`
+`;
 
 const StyledBackground = styled.div`
   z-index: -1;
@@ -59,16 +59,14 @@ const StyledGreeting = styled(H1)`
   z-index: 10;
   position: absolute;
   top: 40px;
-  
+
   @media (min-width: 500px) {
     top: 90px;
     font-size: 72px;
   }
 `;
 
-interface CoffeeProps { }
-
-const CoffeePage: NextPage<CoffeeProps> = () => {
+const CoffeePage: NextPage = () => {
   const timeOfDay = useTimeOfDay();
   const { data, error, loading } = useQuery(COFFEE_LIST_QUERY);
 
@@ -84,19 +82,19 @@ const CoffeePage: NextPage<CoffeeProps> = () => {
               <Image
                 src={`/assets/${timeOfDay}-bg.jpg`}
                 height={345} // scaled 1.6
-                width={600} // scaled 1.6 
+                width={600} // scaled 1.6
               />
             </StyledBackground>
-            <StyledTabsWrapper >
+            <StyledTabsWrapper>
               <Tabs.Label id="configure">
                 <Text bold color="white">
                   Configure
-              </Text>
+                </Text>
               </Tabs.Label>
               <Tabs.Label id="buy">
                 <Text bold color="white">
                   Buy
-              </Text>
+                </Text>
               </Tabs.Label>
             </StyledTabsWrapper>
           </StyledHeaderWrapper>
