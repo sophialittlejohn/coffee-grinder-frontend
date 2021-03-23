@@ -12,7 +12,6 @@ const StyledInput = styled.input<StyledInputProps>`
   width: ${({ width }) => width || "100%"};
   padding: 6px 12px;
   font-size: 18px;
-  font-size: ${({ size }) => (size === "large" ? "18px" : "14px")};
   box-sizing: border-box;
   border: ${({ errorMessage }) =>
     errorMessage ? `1px solid ${COLORS.red}` : `1px solid ${COLORS.black}`};
@@ -44,7 +43,16 @@ const StyledLabel = styled.label<StyledLabelProps>`
     font-weight: 300;
 
     & ~ input {
-      border: 2px solid ${COLORS.black};
+      border: 1px solid ${COLORS.black};
+      border-radius: 4px;
+    }
+  `}
+
+  ${(props) =>
+    props.errorMessage &&
+    `
+    & ~ input {
+      border-color: ${COLORS.red};
       border-radius: 4px;
     }
   `}
@@ -58,10 +66,11 @@ const StyledEndIcon = styled.div`
 
 const StyledError = styled(Text)`
   position: absolute;
+  width: max-content;
 `;
 
-type StyledInputProps = Pick<InputProps, "size" | "errorMessage">;
-type StyledLabelProps = Pick<InputProps, "size" | "isInline"> & {
+type StyledInputProps = Pick<InputProps, "errorMessage">;
+type StyledLabelProps = Pick<InputProps, "isInline" | "errorMessage"> & {
   isFocused: boolean;
   styles: CSSObject;
 };
@@ -70,21 +79,19 @@ interface InputProps {
   label: string;
   type?: "text" | "password" | "number";
   isInline?: boolean;
-  value?: string | number;
-  onChange: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
-  size?: "small" | "large";
   styles?: CSSObject;
   endIcon?: JSX.Element;
   width?: string;
-  errorMessage?: String;
+  errorMessage?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
   type = "text",
   label,
   isInline,
-  size = "large",
   value,
   styles = {},
   endIcon,
@@ -112,6 +119,7 @@ export const Input: React.FC<InputProps> = ({
           isInline={isInline}
           isFocused={focused}
           styles={styles}
+          errorMessage={focused ? errorMessage : undefined}
         >
           {label}
         </StyledLabel>
