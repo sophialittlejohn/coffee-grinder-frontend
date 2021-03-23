@@ -33,9 +33,10 @@ const PrimaryButton = styled(BaseButton)`
 `;
 
 const SecondaryButton = styled(BaseButton)`
-  color: #432b1b;
-  font-weight: bold;
+  color: ${(props) => (props.disabled ? COLORS.black : COLORS.black)};
   background-color: ${COLORS.champain};
+  filter: ${(props) => (props.disabled ? "opacity(50%)" : "none")};
+  font-weight: bold;
   ${(props) => props.styles};
 `;
 
