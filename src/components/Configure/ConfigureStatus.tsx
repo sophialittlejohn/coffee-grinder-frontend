@@ -49,7 +49,7 @@ export const ConfigureStatus: React.FC<ConfigureStatusProps> = () => {
           type="checkbox"
           value="too early"
           checked={"TOO_EARLY" === status}
-          onChange={() => configure("status", "TOO_EARLY")}
+          onChange={() => configure({ type: "status", value: "TOO_EARLY" })}
         />
       </StyledChipLabel>
       <StyledChipLabel checked={"PERFECT" === status}>
@@ -58,7 +58,7 @@ export const ConfigureStatus: React.FC<ConfigureStatusProps> = () => {
           type="checkbox"
           value="perfect"
           checked={"PERFECT" === status}
-          onChange={() => configure("status", "PERFECT")}
+          onChange={() => configure({ type: "status", value: "PERFECT" })}
         />
       </StyledChipLabel>
       <StyledChipLabel checked={"TOO_LATE" === status}>
@@ -67,7 +67,7 @@ export const ConfigureStatus: React.FC<ConfigureStatusProps> = () => {
           type="checkbox"
           value="too late"
           checked={"TOO_LATE" === status}
-          onChange={() => configure("status", "TOO_LATE")}
+          onChange={() => configure({ type: "status", value: "TOO_LATE" })}
         />
       </StyledChipLabel>
     </Inline>
