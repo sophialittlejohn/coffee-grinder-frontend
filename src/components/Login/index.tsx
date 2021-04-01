@@ -83,7 +83,7 @@ export const Login: React.FC = () => {
   return (
     <Stack alignItems="center" marginOnLastChild styles={{ padding: "0 16px" }}>
       <H1 color="white" size="72px">
-        Coffee Grindr
+        Coffee Grinder
       </H1>
       <form>
         <StyledFormContainer gap="8px">

@@ -8,7 +8,7 @@ const StyledStack = styled.div`
 `;
 
 const StyledInput = styled.input<StyledInputProps>`
-  height: 35px;
+  height: 44px;
   width: ${({ width }) => width || "100%"};
   padding: 6px 12px;
   font-size: 18px;
@@ -36,7 +36,7 @@ const StyledLabel = styled.label<StyledLabelProps>`
   ${(props) =>
     props.isFocused &&
     `
-    font-size: 13px;
+    font-size: 14px;
     transform: translateY(-24px) translateX(-5px);
     padding: 0 8px;
     color: ${COLORS.black};
@@ -86,6 +86,7 @@ interface InputProps {
   endIcon?: JSX.Element;
   width?: string;
   errorMessage?: string;
+  animated?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({

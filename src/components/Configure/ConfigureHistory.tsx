@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { H3 } from "../../elements/Heading";
 import { Text } from "../../elements/Text";

@@ -6,7 +6,7 @@ import Portal from "./Portal";
 import { Stack } from "../layout/Stack";
 
 type ModalProps = {
-  disclosure: any;
+  disclosure: React.ReactElement;
   isOpen: boolean;
   disabled?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

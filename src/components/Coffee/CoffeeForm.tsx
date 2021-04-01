@@ -39,9 +39,7 @@ type CreateCoffee = {
   createCoffee: Coffee;
 };
 
-interface CoffeeFormProps { }
-
-export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
+export const CoffeeForm: React.FC = () => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [zip, setZip] = useState<number | "">("");
@@ -63,7 +61,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
 
   const [createCoffeeMutation, { error }] = useMutation<CreateCoffee>(
     CREATE_COFFEE_MUTATION,
-    { onCompleted },
+    { onCompleted }
   );
 
   const cloudinaryUpload = async () => {
@@ -124,13 +122,14 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
       </Stack>
       <Input
         type="text"
-        label="Name"
+        label="Name of coffee"
         value={name}
         onChange={(value) => setName(value as string)}
       />
       <Input
         type="text"
-        label="Street"
+        label="Where did you buy it"
+        animated={false}
         value={street}
         onChange={(value) => setStreet(value as string)}
       />
@@ -171,7 +170,12 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
       <Button variant="secondary" onClick={handleSubmitForm}>
         Save
       </Button>
-      {error && <><Text>An error occured {error.message}</Text><Text>{JSON.stringify(error)}</Text></>}
+      {error && (
+        <>
+          <Text>An error occured {error.message}</Text>
+          <Text>{JSON.stringify(error)}</Text>
+        </>
+      )}
     </StyledForm>
   );
 };

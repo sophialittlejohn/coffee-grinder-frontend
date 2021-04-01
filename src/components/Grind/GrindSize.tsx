@@ -15,7 +15,6 @@ const StyledGrid = styled.div`
   grid-template-columns: 2fr 2fr 1fr 1fr;
 `;
 
-
 export const GrindSize: React.FC = () => {
   const { size, configure } = useConfiguration();
 

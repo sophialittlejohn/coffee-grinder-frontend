@@ -1,3 +1,4 @@
+import React from "react";
 import { CaretDownFill } from "react-bootstrap-icons";
 import styled from "styled-components";
 import { Text } from "./Text";
