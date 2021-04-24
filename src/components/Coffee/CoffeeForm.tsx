@@ -44,7 +44,6 @@ export const CoffeeForm: React.FC = () => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
   const [price, setPrice] = useState("");
-  console.log("➜ ~ price", price, typeof price, !!parseFloat(price))
   const [grams, setGrams] = useState<number>(GRAM_OPTIONS[0].value);
   const [rating, setRating] = useState<number>();
   const [photo, setPhoto] = useState<File>();

@@ -1,22 +1,23 @@
-import React from "react";
 import { NextPage, NextPageContext } from "next";
-import styled from "styled-components";
-import { CoffeeList } from "../../components/Coffee/CoffeeList";
-import { PageLayout } from "../../components/Layout/PageLayout";
-import { Stack } from "../../layout/Stack";
-import { COFFEE_LIST_QUERY } from "../../components/Coffee/queries";
-import { useTimeOfDay } from "../../lib/utils/timeOfDay";
-import { Select } from "../../elements/Select";
-import { Inline } from "../../layout/Inline";
-import { useQuery } from "@apollo/client";
-import { initializeApollo } from "../../lib/apolloClient";
-import { H2 } from "../../elements/Heading";
-import { H1 } from "../../elements/Heading";
-import Image from "next/image";
-import { Text } from "../../elements/Text";
-import { HEADER_MAX_HEIGHT } from "../../lib/constants";
-import { Tabs } from "../../components/Tabs";
+
 import { ApolloServerSideProps } from "../../lib/types";
+import { COFFEE_LIST_QUERY } from "../../components/Coffee/queries";
+import { CoffeeList } from "../../components/Coffee/CoffeeList";
+import { H1 } from "../../elements/Heading";
+import { H2 } from "../../elements/Heading";
+import { HEADER_MAX_HEIGHT } from "../../lib/constants";
+import Image from "next/image";
+import { Inline } from "../../layout/Inline";
+import { PageLayout } from "../../components/Layout/PageLayout";
+import React from "react";
+import { Select } from "../../elements/Select";
+import { Stack } from "../../layout/Stack";
+import { Tabs } from "../../components/Tabs";
+import { Text } from "../../elements/Text";
+import { initializeApollo } from "../../lib/apolloClient";
+import styled from "styled-components";
+import { useQuery } from "@apollo/client";
+import { useTimeOfDay } from "../../lib/utils/timeOfDay";
 
 const PagePadding = styled.div`
   padding: 16px 16px;

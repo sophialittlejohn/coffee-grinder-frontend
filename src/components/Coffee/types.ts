@@ -43,5 +43,5 @@ type CloudinaryImage = {
   secure_url: string;
   access_mode: string;
   original_filename: string;
-  original_extension: string;
+  // original_extension?: string;
 };

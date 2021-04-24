@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { CSSObject } from "styled-components";
+
 import { COLORS } from "../materials/colors";
 import { Text } from "./Text";
 
@@ -37,7 +38,7 @@ const StyledLabel = styled.label<StyledLabelProps>`
     props.isFocused &&
     `
     font-size: 14px;
-    transform: translateY(-24px) translateX(-5px);
+    transform: translateY(-30px) translateX(-5px);
     padding: 0 8px;
     color: ${COLORS.black};
     font-weight: 300;

@@ -1,28 +1,29 @@
-import React from "react";
-import styled from "styled-components";
 import { NextPage, NextPageContext } from "next";
-import { PageLayout } from "../../components/Layout/PageLayout";
-import { initializeApollo } from "../../lib/apolloClient";
+
+import { ApolloServerSideProps } from "../../lib/types";
 import { COFFEE_DETAIL_QUERY } from "../../components/Coffee/queries";
 import { Configure } from "../../components/Configure";
-import { useQuery } from "@apollo/client";
 import { H2 } from "../../elements/Heading";
-import { ApolloServerSideProps } from "../../lib/types";
+import { PageLayout } from "../../components/Layout/PageLayout";
+import React from "react";
+import { initializeApollo } from "../../lib/apolloClient";
+import styled from "styled-components";
+import { useQuery } from "@apollo/client";
 
 const PagePadding = styled.div`
   padding: 0 16px;
 `;
 
 interface CoffeeConfigureProps {
-  coffeeId: number;
+  query: { coffeeId: number };
 }
 
 const CoffeeConfigurePage: NextPage<CoffeeConfigureProps, null> = ({
-  coffeeId,
+  query,
 }) => {
   const { data, loading, error } = useQuery(COFFEE_DETAIL_QUERY, {
     variables: {
-      id: coffeeId,
+      id: query.coffeeId,
     },
   });
 
@@ -53,8 +54,8 @@ export async function getServerSideProps(
     return {
       props: {
         initialApolloState: apolloClient.cache.extract(),
-        query: { coffeeId }
-      }
+        query: { coffeeId },
+      },
     };
   } catch (error) {
     return {
