@@ -21,7 +21,7 @@ export const CoffeeMachineForm: React.FC = () => {
   const { updateUser } = useUserContext();
 
   const onCompleted = async (data: CreateCoffeeMachine) => {
-    if (data?.createCoffeeMachine && updateUser) {
+    if (data?.createCoffeeMachine) {
       await updateUser({ primaryMachine: Number(data.createCoffeeMachine.id) });
       push("/coffee");
     }

@@ -1,25 +1,44 @@
 import React, { useContext, useState } from "react";
 import { Status } from "./types";
 
+type SizeConfig = {
+  type: "size";
+  value: string;
+};
+
+type AmountConfig = {
+  type: "amount";
+  value: string;
+};
+
+type StatusConfig = {
+  type: "status";
+  value: Status;
+};
+
+// this creates a discrimitated union based on the common key type or value
+// in the switch statement later on type assertions won't be necessary anymore
+type ConfigureOptions = SizeConfig | AmountConfig | StatusConfig;
+
 type Configuration = {
-  amount: number;
-  size: number;
+  amount: string;
+  size: string;
   status?: Status;
 };
 
 interface ConfigureContext extends Configuration {
-  configure: (type: keyof Configuration, value: number | Status) => void;
+  configure: (configureOptions: ConfigureOptions) => void;
 }
 
 const defaultConfigurations: Configuration = {
-  amount: 0,
-  size: 0,
+  amount: "8.5",
+  size: "7",
   status: "NONE",
 };
 
 const defaultConfigureContext: ConfigureContext = {
   ...defaultConfigurations,
-  configure: (type, value) => undefined,
+  configure: (options) => undefined,
 };
 
 const ConfigurationContext = React.createContext(defaultConfigureContext);
@@ -33,16 +52,17 @@ export const ConfigurationProvider: React.FC<Configuration> = (props) => {
     props.status || defaultConfigurations.status || "NONE"
   );
 
-  const configure = (type: string, value: number | Status) => {
-    switch (type) {
+  // type inferance doens't work if options are desctrutured
+  const configure = (options: ConfigureOptions) => {
+    switch (options.type) {
       case "size":
-        setSize(value as number);
+        setSize(options.value);
         break;
       case "amount":
-        setAmount(value as number);
+        setAmount(options.value);
         break;
       case "status":
-        setStatus(value as Status);
+        setStatus(options.value);
     }
   };
 
@@ -53,7 +73,7 @@ export const ConfigurationProvider: React.FC<Configuration> = (props) => {
   );
 };
 
-export const useConfiguration = () => {
+export const useConfiguration = (): ConfigureContext => {
   const context = useContext(ConfigurationContext);
   return context;
 };

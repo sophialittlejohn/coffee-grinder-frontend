@@ -37,18 +37,18 @@ export const Rating: React.FC<RatingProps> = ({
             <StarFill size={15} />
           </Button>
         ) : (
-            <Button
-              styles={{ height: "min-content", padding: "0px" }}
-              key={index}
-              variant="icon"
-              disabled={!onClick}
-              onClick={() => {
-                onClick && onClick(index + 1);
-              }}
-            >
-              <Star size={15} key={index} />
-            </Button>
-          )
+          <Button
+            styles={{ height: "min-content", padding: "0px" }}
+            key={index}
+            variant="icon"
+            disabled={!onClick}
+            onClick={() => {
+              onClick && onClick(index + 1);
+            }}
+          >
+            <Star size={15} key={index} />
+          </Button>
+        )
       )}
     </Inline>
   );

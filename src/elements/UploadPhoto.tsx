@@ -10,15 +10,15 @@ const StyledUploadWrapper = styled.div`
   margin: 0 auto;
   height: 130px;
   overflow: hidden;
-`
+`;
 
-const StyledInputWrapper = styled(Stack) <{ visibile: boolean }>`
+const StyledInputWrapper = styled(Stack)<{ visibile: boolean }>`
   height: 130px;
   width: 110px;
   margin: 0 auto;
   border: 1px solid ${COLORS.black};
   border-radius: 4px;
-  opacity: ${({ visibile }) => visibile ? '0' : '1'}
+  opacity: ${({ visibile }) => (visibile ? "0" : "1")};
 `;
 
 const StyledInput = styled.input`
@@ -63,8 +63,8 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({
       const image = e.target.files[0];
       setPreview(URL.createObjectURL(image));
       setPhoto(image);
-    };
-  }
+    }
+  };
 
   return (
     <StyledUploadWrapper>
@@ -74,12 +74,15 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({
             <Camera size={38} />
             <Text>Add a picture</Text>
           </StyledLabelInner>
-          <StyledInput accept="image/*" onChange={handleImageAsFile} type="file" id="file" />
+          <StyledInput
+            accept="image/*"
+            onChange={handleImageAsFile}
+            type="file"
+            id="file"
+          />
         </StyledLabel>
       </StyledInputWrapper>
-      {preview &&
-        <StyledImg src={preview} width={110} alt="photo of coffee" />
-      }
+      {preview && <StyledImg src={preview} width={110} alt="photo of coffee" />}
       {children}
     </StyledUploadWrapper>
   );

@@ -1,5 +1,5 @@
-import { useMutation } from "@apollo/client";
 import React from "react";
+import { useMutation } from "@apollo/client";
 import { Button } from "../../elements/Button";
 import { Stack } from "../../layout/Stack";
 import { Text } from "../../elements/Text";
@@ -27,8 +27,8 @@ export const ConfigureForm: React.FC<ConfigureFormProps> = ({ coffeeId }) => {
       variables: {
         id: Number(coffeeId),
         status,
-        amount: String(amount),
-        size: String(size),
+        amount: String(amount || ""),
+        size: String(size || ""),
       },
     });
     push("/coffee");
@@ -49,7 +49,11 @@ export const ConfigureForm: React.FC<ConfigureFormProps> = ({ coffeeId }) => {
         </Text>
         <ConfigureStatus />
       </Stack>
-      <Button onClick={handleSubmit} variant="secondary">
+      <Button
+        onClick={handleSubmit}
+        variant="secondary"
+        disabled={parseFloat(amount) < 0 || parseInt(size) < 0}
+      >
         Submit
       </Button>
     </Stack>

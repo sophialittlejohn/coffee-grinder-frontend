@@ -1,9 +1,9 @@
-import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../lib/apolloClient";
-import { createGlobalStyle } from "styled-components";
-import { ContextUser } from "../lib/userContext";
 import { COLORS } from "../materials/colors";
+import { ContextUser } from "../lib/userContext";
+import React from "react";
+import { createGlobalStyle } from "styled-components";
+import { useApollo } from "../lib/apolloClient";
 
 const GlobalStyle = createGlobalStyle`
 *,
@@ -32,10 +32,10 @@ const GlobalStyle = createGlobalStyle`
     outline: 0;
   }
 
-  // A reset of styles, including removing the default dropdown arrow
+  /* A reset of styles, including removing the default dropdown arrow */
   select {
     appearance: none;
-    // Additional resets for further consistency
+    /* Additional resets for further consistency */
     background-color: transparent;
     border: none;
     padding: 0 1em 0 0;

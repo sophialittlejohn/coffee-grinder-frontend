@@ -10,7 +10,7 @@ export const TabsContext = createContext<TabsContextType>({
   setActive: () => undefined,
 });
 
-export const useTabsContext = () => {
+export const useTabsContext = (): TabsContextType => {
   const context = useContext(TabsContext);
   if (!context) {
     throw new Error(

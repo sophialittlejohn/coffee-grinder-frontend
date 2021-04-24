@@ -6,7 +6,6 @@ import { Button } from "../../elements/Button";
 import { H3 } from "../../elements/Heading";
 import { Inline } from "../../layout/Inline";
 import { Modal } from "../../elements/Modal";
-import { Stack } from "../../layout/Stack";
 import { HEADER_MAX_HEIGHT } from "../../lib/constants";
 import { COLORS } from "../../materials/colors";
 import { SidebarMenu } from "../SidebarMenu";

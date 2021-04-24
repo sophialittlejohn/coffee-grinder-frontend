@@ -1,21 +1,23 @@
-import React from "react";
 import { NextPage, NextPageContext } from "next";
-import styled from "styled-components";
-import { CoffeeList } from "../../components/Coffee/CoffeeList";
-import { PageLayout } from "../../components/Layout/PageLayout";
-import { Stack } from "../../layout/Stack";
+
+import { ApolloServerSideProps } from "../../lib/types";
 import { COFFEE_LIST_QUERY } from "../../components/Coffee/queries";
-import { useTimeOfDay } from "../../lib/utils/timeOfDay";
-import { Select } from "../../elements/Select";
-import { Inline } from "../../layout/Inline";
-import { useQuery } from "@apollo/client";
-import { initializeApollo } from "../../lib/apolloClient";
-import { H2 } from "../../elements/Heading";
+import { CoffeeList } from "../../components/Coffee/CoffeeList";
 import { H1 } from "../../elements/Heading";
-import Image from "next/image";
-import { Text } from "../../elements/Text";
+import { H2 } from "../../elements/Heading";
 import { HEADER_MAX_HEIGHT } from "../../lib/constants";
+import Image from "next/image";
+import { Inline } from "../../layout/Inline";
+import { PageLayout } from "../../components/Layout/PageLayout";
+import React from "react";
+import { Select } from "../../elements/Select";
+import { Stack } from "../../layout/Stack";
 import { Tabs } from "../../components/Tabs";
+import { Text } from "../../elements/Text";
+import { initializeApollo } from "../../lib/apolloClient";
+import styled from "styled-components";
+import { useQuery } from "@apollo/client";
+import { useTimeOfDay } from "../../lib/utils/timeOfDay";
 
 const PagePadding = styled.div`
   padding: 16px 16px;
@@ -26,7 +28,7 @@ const PagePadding = styled.div`
 const StyledContentWrapper = styled.div`
   position: relative;
   top: -${HEADER_MAX_HEIGHT}px;
-`
+`;
 
 const StyledHeaderWrapper = styled.div`
   position: sticky;
@@ -45,7 +47,7 @@ const StyledTabsWrapper = styled(Inline)`
   width: 100%;
   max-width: 600px;
   top: -${HEADER_MAX_HEIGHT + 8}px;
-`
+`;
 
 const StyledBackground = styled.div`
   z-index: -1;
@@ -59,16 +61,14 @@ const StyledGreeting = styled(H1)`
   z-index: 10;
   position: absolute;
   top: 40px;
-  
+
   @media (min-width: 500px) {
     top: 90px;
     font-size: 72px;
   }
 `;
 
-interface CoffeeProps { }
-
-const CoffeePage: NextPage<CoffeeProps> = () => {
+const CoffeePage: NextPage = () => {
   const timeOfDay = useTimeOfDay();
   const { data, error, loading } = useQuery(COFFEE_LIST_QUERY);
 
@@ -84,19 +84,19 @@ const CoffeePage: NextPage<CoffeeProps> = () => {
               <Image
                 src={`/assets/${timeOfDay}-bg.jpg`}
                 height={345} // scaled 1.6
-                width={600} // scaled 1.6 
+                width={600} // scaled 1.6
               />
             </StyledBackground>
-            <StyledTabsWrapper >
+            <StyledTabsWrapper>
               <Tabs.Label id="configure">
                 <Text bold color="white">
                   Configure
-              </Text>
+                </Text>
               </Tabs.Label>
               <Tabs.Label id="buy">
                 <Text bold color="white">
                   Buy
-              </Text>
+                </Text>
               </Tabs.Label>
             </StyledTabsWrapper>
           </StyledHeaderWrapper>
@@ -142,7 +142,9 @@ const CoffeePage: NextPage<CoffeeProps> = () => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(
+  context: NextPageContext
+): Promise<ApolloServerSideProps> {
   const apolloClient = initializeApollo(context);
   // verify token, send user data
 

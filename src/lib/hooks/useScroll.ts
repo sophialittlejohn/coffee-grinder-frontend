@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * 
+ *
  * legacy, verify if still needed
  */
 export const useScroll = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { CSSObject } from "styled-components";
+
 import { COLORS } from "../materials/colors";
 import { Text } from "./Text";
 
@@ -8,11 +9,10 @@ const StyledStack = styled.div`
 `;
 
 const StyledInput = styled.input<StyledInputProps>`
-  height: 35px;
+  height: 44px;
   width: ${({ width }) => width || "100%"};
   padding: 6px 12px;
   font-size: 18px;
-  font-size: ${({ size }) => (size === "large" ? "18px" : "14px")};
   box-sizing: border-box;
   border: ${({ errorMessage }) =>
     errorMessage ? `1px solid ${COLORS.red}` : `1px solid ${COLORS.black}`};
@@ -37,14 +37,23 @@ const StyledLabel = styled.label<StyledLabelProps>`
   ${(props) =>
     props.isFocused &&
     `
-    font-size: 13px;
-    transform: translateY(-24px) translateX(-5px);
+    font-size: 14px;
+    transform: translateY(-30px) translateX(-5px);
     padding: 0 8px;
     color: ${COLORS.black};
     font-weight: 300;
 
     & ~ input {
-      border: 2px solid ${COLORS.black};
+      border: 1px solid ${COLORS.black};
+      border-radius: 4px;
+    }
+  `}
+
+  ${(props) =>
+    props.errorMessage &&
+    `
+    & ~ input {
+      border-color: ${COLORS.red};
       border-radius: 4px;
     }
   `}
@@ -58,10 +67,11 @@ const StyledEndIcon = styled.div`
 
 const StyledError = styled(Text)`
   position: absolute;
+  width: max-content;
 `;
 
-type StyledInputProps = Pick<InputProps, "size" | "errorMessage">;
-type StyledLabelProps = Pick<InputProps, "size" | "isInline"> & {
+type StyledInputProps = Pick<InputProps, "errorMessage">;
+type StyledLabelProps = Pick<InputProps, "isInline" | "errorMessage"> & {
   isFocused: boolean;
   styles: CSSObject;
 };
@@ -70,21 +80,20 @@ interface InputProps {
   label: string;
   type?: "text" | "password" | "number";
   isInline?: boolean;
-  value?: string | number;
-  onChange: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
-  size?: "small" | "large";
   styles?: CSSObject;
   endIcon?: JSX.Element;
   width?: string;
-  errorMessage?: String;
+  errorMessage?: string;
+  animated?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
   type = "text",
   label,
   isInline,
-  size = "large",
   value,
   styles = {},
   endIcon,
@@ -112,6 +121,7 @@ export const Input: React.FC<InputProps> = ({
           isInline={isInline}
           isFocused={focused}
           styles={styles}
+          errorMessage={focused ? errorMessage : undefined}
         >
           {label}
         </StyledLabel>

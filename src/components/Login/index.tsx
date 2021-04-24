@@ -1,18 +1,19 @@
-import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { setCookie } from "nookies";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Text } from "../../elements/Text";
-import { Button } from "../../elements/Button";
+import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import { H1, H2 } from "../../elements/Heading";
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from "./mutations";
+import React, { useEffect, useState } from "react";
+
+import { Button } from "../../elements/Button";
+import { COLORS } from "../../materials/colors";
 import { Inline } from "../../layout/Inline";
 import { Input } from "../../elements/Input";
 import { Stack } from "../../layout/Stack";
+import { Text } from "../../elements/Text";
+import { setCookie } from "nookies";
+import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 import { useUserContext } from "../../lib/userContext";
-import { COLORS } from "../../materials/colors";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "./mutations";
-import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 
 const StyledFormContainer = styled(Stack)`
   margin: 0 auto;
@@ -83,7 +84,7 @@ export const Login: React.FC = () => {
   return (
     <Stack alignItems="center" marginOnLastChild styles={{ padding: "0 16px" }}>
       <H1 color="white" size="72px">
-        Coffee Grindr
+        Coffee Grinder
       </H1>
       <form>
         <StyledFormContainer gap="8px">
@@ -97,7 +98,7 @@ export const Login: React.FC = () => {
               value={email}
               onChange={(value) => setEmail(value as string)}
               type="text"
-              errorMessage={errorLogin?.message || errorSignup?.message}
+              errorMessage={errorLogin?.message || errorSignup?.message ? 'Something went wrong' : ''}
               styles={{
                 background: COLORS.lightYellow,
               }}
@@ -108,7 +109,7 @@ export const Login: React.FC = () => {
               onChange={(value) => setPassword(value as string)}
               type={showPassword ? "text" : "password"}
               styles={{ background: COLORS.lightYellow }}
-              errorMessage={errorLogin?.message || errorSignup?.message}
+              errorMessage={errorLogin?.message || errorSignup?.message ? 'Something went wrong' : ''}
               endIcon={
                 <Button
                   tabIndex={-1}

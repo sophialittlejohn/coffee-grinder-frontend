@@ -1,27 +1,27 @@
-import React from "react";
-import styled from "styled-components";
 import { NextPage, NextPageContext } from "next";
-import { PageLayout } from "../../components/Layout/PageLayout";
-import { initializeApollo } from "../../lib/apolloClient";
 import { COFFEE_DETAIL_QUERY } from "../../components/Coffee/queries";
 import { Configure } from "../../components/Configure";
-import { useQuery } from "@apollo/client";
 import { H2 } from "../../elements/Heading";
+import { PageLayout } from "../../components/Layout/PageLayout";
+import React from "react";
+import { initializeApollo } from "../../lib/apolloClient";
+import styled from "styled-components";
+import { useQuery } from "@apollo/client";
 
 const PagePadding = styled.div`
   padding: 0 16px;
 `;
 
 interface CoffeeConfigureProps {
-  coffeeId: number;
+  query: { coffeeId: number };
 }
 
-const CoffeeConfigurePage: NextPage<CoffeeConfigureProps, {}> = ({
-  coffeeId,
+const CoffeeConfigurePage: NextPage<CoffeeConfigureProps, null> = ({
+  query,
 }) => {
   const { data, loading, error } = useQuery(COFFEE_DETAIL_QUERY, {
     variables: {
-      id: coffeeId,
+      id: query.coffeeId,
     },
   });
 
@@ -36,7 +36,9 @@ const CoffeeConfigurePage: NextPage<CoffeeConfigureProps, {}> = ({
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(
+  context: NextPageContext
+) {
   const coffeeId = Number(context.query.id);
 
   const apolloClient = initializeApollo(context);
@@ -50,7 +52,7 @@ export async function getServerSideProps(context: NextPageContext) {
     return {
       props: {
         initialApolloState: apolloClient.cache.extract(),
-        coffeeId,
+        query: { coffeeId },
       },
     };
   } catch (error) {
