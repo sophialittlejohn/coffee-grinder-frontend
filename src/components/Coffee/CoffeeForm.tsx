@@ -1,18 +1,19 @@
-import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import { Coffee } from "./types";
-import { CREATE_COFFEE_MUTATION } from "./queries";
-import { useUserContext } from "../../lib/userContext";
-import { Stack } from "../../layout/Stack";
-import { Inline } from "../../layout/Inline";
-import { Text } from "../../elements/Text";
-import { Input } from "../../elements/Input";
-import { Select } from "../../elements/Select";
-import { UploadPhoto } from "../../elements/UploadPhoto";
+
 import { Button } from "../../elements/Button";
+import { CREATE_COFFEE_MUTATION } from "./queries";
+import { Coffee } from "./types";
+import { Inline } from "../../layout/Inline";
+import { Input } from "../../elements/Input";
 import { Rating } from "../Rating";
+import { Select } from "../../elements/Select";
+import { Stack } from "../../layout/Stack";
+import { Text } from "../../elements/Text";
+import { UploadPhoto } from "../../elements/UploadPhoto";
+import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+import { useUserContext } from "../../lib/userContext";
 
 const GRAM_OPTIONS = [
   {
@@ -39,14 +40,11 @@ type CreateCoffee = {
   createCoffee: Coffee;
 };
 
-interface CoffeeFormProps { }
-
-export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
+export const CoffeeForm: React.FC = () => {
   const [name, setName] = useState("");
   const [street, setStreet] = useState("");
-  const [zip, setZip] = useState<number | "">("");
-  const [city, setCity] = useState("");
-  const [price, setPrice] = useState<number | "">("");
+  const [price, setPrice] = useState("");
+  console.log("➜ ~ price", price, typeof price, !!parseFloat(price))
   const [grams, setGrams] = useState<number>(GRAM_OPTIONS[0].value);
   const [rating, setRating] = useState<number>();
   const [photo, setPhoto] = useState<File>();
@@ -63,7 +61,7 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
 
   const [createCoffeeMutation, { error }] = useMutation<CreateCoffee>(
     CREATE_COFFEE_MUTATION,
-    { onCompleted },
+    { onCompleted }
   );
 
   const cloudinaryUpload = async () => {
@@ -103,8 +101,6 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
         variables: {
           name,
           street,
-          city,
-          zip,
           price,
           grams,
           rating,
@@ -124,39 +120,36 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
       </Stack>
       <Input
         type="text"
-        label="Name"
+        label="Coffee"
         value={name}
         onChange={(value) => setName(value as string)}
       />
-      <Input
-        type="text"
-        label="Street"
-        value={street}
-        onChange={(value) => setStreet(value as string)}
-      />
-      <Inline gap="8px">
+      <Stack gap="4px">
+        <Text
+          size="12px"
+          bold
+          color="orange"
+          styles={{ letterSpacing: "0.5px" }}
+        >
+          Where did you buy the coffee?
+        </Text>
         <Input
-          type="number"
-          label="Zip"
-          value={zip}
-          onChange={(value) => setZip(Number(value) || "")}
-          width="75px"
-        />
-        <Input
+          label=""
           type="text"
-          label="City"
-          value={city}
-          onChange={(value) => setCity(value as string)}
+          placeholder="Name or address of coffee shop"
+          value={street}
+          onChange={(value) => setStreet(value as string)}
         />
-      </Inline>
+      </Stack>
       <Inline alignItems="center" gap="12px">
         <Text>CHF</Text>
         <Input
-          type="number"
+          type="text"
           label="Price"
           value={price}
-          onChange={(value) => setPrice(Number(value) || "")}
+          onChange={(value) => setPrice(value)}
           width="75px"
+          errorMessage={price && !parseFloat(price) ? "Invalid value" : undefined}
         />{" "}
         <Text>/</Text>
         <Select options={GRAM_OPTIONS} onChange={(value) => setGrams(value)} />
@@ -171,7 +164,12 @@ export const CoffeeForm: React.FC<CoffeeFormProps> = () => {
       <Button variant="secondary" onClick={handleSubmitForm}>
         Save
       </Button>
-      {error && <><Text>An error occured {error.message}</Text><Text>{JSON.stringify(error)}</Text></>}
+      {error && (
+        <>
+          <Text>An error occured {error.message}</Text>
+          <Text>{JSON.stringify(error)}</Text>
+        </>
+      )}
     </StyledForm>
   );
 };

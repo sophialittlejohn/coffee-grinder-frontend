@@ -7,8 +7,6 @@ export const COFFEE_LIST_QUERY = gql`
       name
       rating
       street
-      city
-      zip
       photo {
         asset_id
         secure_url
@@ -72,8 +70,6 @@ export const UPDATE_COFFEE_MUTATION = gql`
       name
       rating
       street
-      city
-      zip
       photo {
         asset_id
         secure_url
@@ -93,19 +89,15 @@ export const CREATE_COFFEE_MUTATION = gql`
   mutation CreateCoffee(
     $name: String!
     $street: String
-    $city: String
-    $zip: Int
     $coffeeMachineId: Int
     $photo: CloudinaryImageInput
-    $price: Int
+    $price: String
     $grams: Int
     $rating: Int
   ) {
     createCoffee(
       name: $name
       street: $street
-      city: $city
-      zip: $zip
       price: $price
       grams: $grams
       coffeeMachineId: $coffeeMachineId
@@ -116,8 +108,6 @@ export const CREATE_COFFEE_MUTATION = gql`
       name
       rating
       street
-      city
-      zip
       photo {
         asset_id
         secure_url
