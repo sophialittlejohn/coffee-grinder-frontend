@@ -26,8 +26,8 @@ export const Configure: React.FC<ConfigureProps> = ({ coffee }) => {
         <ConfigureCard coffee={coffee} />
       </Stack>
       <ConfigurationProvider
-        amount={Number(coffee?.configurations[0]?.amount) || 0}
-        size={Number(coffee?.configurations[0]?.size) || 0}
+        amount={coffee?.configurations[0]?.amount || "0"}
+        size={coffee?.configurations[0]?.size || "0"}
       >
         <ConfigureForm coffeeId={coffee.id} />
       </ConfigurationProvider>

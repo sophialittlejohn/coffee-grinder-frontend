@@ -1,6 +1,4 @@
 import { NextPage, NextPageContext } from "next";
-
-import { ApolloServerSideProps } from "../../lib/types";
 import { COFFEE_DETAIL_QUERY } from "../../components/Coffee/queries";
 import { Configure } from "../../components/Configure";
 import { H2 } from "../../elements/Heading";
@@ -40,7 +38,7 @@ const CoffeeConfigurePage: NextPage<CoffeeConfigureProps, null> = ({
 
 export async function getServerSideProps(
   context: NextPageContext
-): Promise<ApolloServerSideProps<CoffeeConfigureProps>> {
+) {
   const coffeeId = Number(context.query.id);
 
   const apolloClient = initializeApollo(context);
