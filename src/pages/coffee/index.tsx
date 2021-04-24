@@ -16,6 +16,7 @@ import Image from "next/image";
 import { Text } from "../../elements/Text";
 import { HEADER_MAX_HEIGHT } from "../../lib/constants";
 import { Tabs } from "../../components/Tabs";
+import { ApolloServerSideProps } from "../../lib/types";
 
 const PagePadding = styled.div`
   padding: 16px 16px;
@@ -140,7 +141,9 @@ const CoffeePage: NextPage = () => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(
+  context: NextPageContext
+): Promise<ApolloServerSideProps> {
   const apolloClient = initializeApollo(context);
   // verify token, send user data
 
