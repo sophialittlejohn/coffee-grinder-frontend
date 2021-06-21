@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "../../elements/Button";
 import { CREATE_COFFEE_MUTATION } from "./queries";
@@ -10,6 +10,8 @@ import { Select } from "../../elements/Select";
 import { Stack } from "../../layout/Stack";
 import { Text } from "../../elements/Text";
 import { UploadPhoto } from "../../elements/UploadPhoto";
+import { cloudinaryUpload } from "../../lib/utils/cloudinaryUpload";
+import { loadSearchBoxApi } from "../../lib/utils/loadMapsApi";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -49,8 +51,8 @@ export const CoffeeForm: React.FC = () => {
   const [photo, setPhoto] = useState<File>();
 
   const { user } = useUserContext();
-
   const { push } = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onCompleted = (data: CreateCoffee) => {
     if (data.createCoffee.name) {
@@ -63,54 +65,38 @@ export const CoffeeForm: React.FC = () => {
     { onCompleted }
   );
 
-  const cloudinaryUpload = async () => {
-    if (photo) {
-      try {
-        const formData = new FormData();
-        formData.append("file", photo);
-        formData.append("upload_preset", "coffee-image");
-        formData.append("api_key", process.env.CLOUDINARY_API_KEY as string);
-
-        // TODO: use env
-        const res = await fetch(
-          "https://api.cloudinary.com/v1_1/coffee-grinder/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        const data = await res.text();
-        return JSON.parse(data);
-      } catch (error) {
-        console.info("this is the stupid error that occured", error.message);
-      }
-    } else {
-      return Promise.reject("unable to upload ");
-    }
-  };
-
   const handleSubmitForm = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    try {
-      // tags are not in db yet
-      const { tags, ...image } = await cloudinaryUpload();
-      createCoffeeMutation({
-        variables: {
-          name,
-          street,
-          price,
-          grams,
-          rating,
-          coffeeMachineId: Number(user?.coffeeMachines[0].id),
-          photo: image,
-        },
-      });
-    } catch (error) {
-      console.warn(error);
+    if (photo && name && street && price && rating) {
+      try {
+        // tags are not in db yet
+        const { tags, ...uploadedPhoto } = await cloudinaryUpload(photo);
+        createCoffeeMutation({
+          variables: {
+            name,
+            street,
+            price,
+            grams,
+            rating,
+            coffeeMachineId: Number(user?.coffeeMachines[0].id),
+            photo: uploadedPhoto,
+          },
+        });
+      } catch (error) {
+        console.warn(error);
+      }
+    } else {
+      console.error("form validation failed");
     }
   };
+
+  useEffect(() => {
+    if (inputRef.current && window) {
+      loadSearchBoxApi(inputRef.current);
+    }
+  }, [inputRef]);
 
   return (
     <StyledForm gap="24px" justifyContent="flex-end">
@@ -134,6 +120,7 @@ export const CoffeeForm: React.FC = () => {
         </Text>
         <Input
           label=""
+          ref={inputRef}
           type="text"
           placeholder="Name or address of coffee shop"
           value={street}
@@ -148,7 +135,9 @@ export const CoffeeForm: React.FC = () => {
           value={price}
           onChange={(value) => setPrice(value)}
           width="75px"
-          errorMessage={price && !parseFloat(price) ? "Invalid value" : undefined}
+          errorMessage={
+            price && !parseFloat(price) ? "Invalid value" : undefined
+          }
         />{" "}
         <Text>/</Text>
         <Select options={GRAM_OPTIONS} onChange={(value) => setGrams(value)} />

@@ -77,6 +77,7 @@ type StyledLabelProps = Pick<InputProps, "isInline" | "errorMessage"> & {
 };
 
 interface InputProps {
+  id?: string;
   label: string;
   type?: "text" | "password" | "number";
   isInline?: boolean;
@@ -88,62 +89,71 @@ interface InputProps {
   width?: string;
   errorMessage?: string;
   animated?: boolean;
+  ref?: React.ForwardedRef<HTMLInputElement>;
 }
 
-export const Input: React.FC<InputProps> = ({
-  type = "text",
-  label,
-  isInline,
-  value,
-  styles = {},
-  endIcon,
-  errorMessage,
-  onChange,
-  ...props
-}) => {
-  const [focused, setFocused] = useState(false);
+export const Input: React.FC<InputProps> = React.forwardRef(
+  (
+    {
+      type = "text",
+      label,
+      isInline,
+      value,
+      styles = {},
+      endIcon,
+      errorMessage,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
+    const [focused, setFocused] = useState(false);
 
-  useEffect(() => {
-    if (!value) {
-      setFocused(false);
-    } else {
-      if (!focused) {
-        setFocused(true);
+    useEffect(() => {
+      if (!value) {
+        setFocused(false);
+      } else {
+        if (!focused) {
+          setFocused(true);
+        }
       }
-    }
-  }, [value]);
+    }, [value]);
 
-  return (
-    <>
-      <StyledStack>
-        <StyledLabel
-          htmlFor={label}
-          isInline={isInline}
-          isFocused={focused}
-          styles={styles}
-          errorMessage={focused ? errorMessage : undefined}
-        >
-          {label}
-        </StyledLabel>
-        <StyledInput
-          autoComplete="off"
-          id={label}
-          onClick={(e) => e.stopPropagation()}
-          onChange={(event) => onChange(event.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={(event) => !event.target.value && setFocused(false)}
-          type={type}
-          value={value}
-          errorMessage={focused ? "" : errorMessage}
-          {...props}
-        />
-        {endIcon && <StyledEndIcon>{endIcon}</StyledEndIcon>}
-        {errorMessage ? (
-          <StyledError color="red" size="12px">
-            {errorMessage}
-          </StyledError>
-        ) : null}
-      </StyledStack>
-    </>
-  );
-};
+    return (
+      <>
+        <StyledStack>
+          <StyledLabel
+            htmlFor={label}
+            isInline={isInline}
+            isFocused={focused}
+            styles={styles}
+            errorMessage={focused ? errorMessage : undefined}
+          >
+            {label}
+          </StyledLabel>
+          <StyledInput
+            autoComplete="off"
+            id={label || props.id}
+            ref={ref}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(event) => onChange(event.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={(event) => !event.target.value && setFocused(false)}
+            type={type}
+            value={value}
+            errorMessage={focused ? "" : errorMessage}
+            {...props}
+          />
+          {endIcon && <StyledEndIcon>{endIcon}</StyledEndIcon>}
+          {errorMessage ? (
+            <StyledError color="red" size="12px">
+              {errorMessage}
+            </StyledError>
+          ) : null}
+        </StyledStack>
+      </>
+    );
+  }
+);
+
+Input.displayName = "Input";
