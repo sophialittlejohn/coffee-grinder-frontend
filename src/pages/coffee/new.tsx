@@ -18,7 +18,6 @@ const NewCoffeePage: NextPage<NewCoffeeProps> = () => {
       <Head>
         <title>New beans</title>
         <script
-          async
           src={`https://maps.googleapis.com/maps/api/js?key=${
             serverRuntimeConfig.googlePlacesApiKey ||
             publicRuntimeConfig.googlePlacesApiKey
