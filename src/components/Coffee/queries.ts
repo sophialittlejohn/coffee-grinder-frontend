@@ -6,7 +6,6 @@ export const COFFEE_LIST_QUERY = gql`
       id
       name
       rating
-      street
       photo {
         asset_id
         secure_url
@@ -27,6 +26,16 @@ export const COFFEE_LIST_QUERY = gql`
         createdAt
         status
       }
+      address {
+        id
+        street
+        street_number
+        city
+        postal_code
+        country
+        lat
+        lng
+      }
     }
   }
 `;
@@ -37,9 +46,6 @@ export const COFFEE_DETAIL_QUERY = gql`
       id
       name
       rating
-      street
-      city
-      zip
       configurations {
         id
         size
@@ -69,7 +75,6 @@ export const UPDATE_COFFEE_MUTATION = gql`
       id
       name
       rating
-      street
       photo {
         asset_id
         secure_url
@@ -81,6 +86,16 @@ export const UPDATE_COFFEE_MUTATION = gql`
         createdAt
         status
       }
+      address {
+        id
+        street
+        street_number
+        city
+        postal_code
+        country
+        lat
+        lng
+      }
     }
   }
 `;
@@ -88,7 +103,7 @@ export const UPDATE_COFFEE_MUTATION = gql`
 export const CREATE_COFFEE_MUTATION = gql`
   mutation CreateCoffee(
     $name: String!
-    $street: String
+    $address: GoogleMapsAddressInput
     $coffeeMachineId: Int
     $photo: CloudinaryImageInput
     $price: String
@@ -97,7 +112,7 @@ export const CREATE_COFFEE_MUTATION = gql`
   ) {
     createCoffee(
       name: $name
-      street: $street
+      address: $address
       price: $price
       grams: $grams
       coffeeMachineId: $coffeeMachineId
@@ -107,7 +122,16 @@ export const CREATE_COFFEE_MUTATION = gql`
       id
       name
       rating
-      street
+      address {
+        id
+        street
+        street_number
+        city
+        postal_code
+        country
+        lat
+        lng
+      }
       photo {
         asset_id
         secure_url
