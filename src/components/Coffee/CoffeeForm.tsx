@@ -141,7 +141,7 @@ export const CoffeeForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (inputRef.current && window !== "undefined") {
+    if (inputRef.current && window !== undefined) {
       const autocomplete = loadAutocompleteApi(inputRef.current);
       autocomplete.addListener("place_changed", () => {
         const formattedAddress = formatAddress(autocomplete.getPlace());
