@@ -1,15 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { Text } from "../../elements/Text";
 import { H2, H3 } from "../../elements/Heading";
-import Image from "next/image";
-import { Stack } from "../../layout/Stack";
-import { formatCurrency } from "../../lib/utils/formatCurrency";
-import { Rating } from "../Rating";
+
+import { COLORS } from "../../materials/colors";
 import { Coffee } from "./types";
 import { FALLBACK_COFFEE_URL } from "../../lib/constants";
+import Image from "next/image";
 import { Inline } from "../../layout/Inline";
-import { COLORS } from "../../materials/colors";
+import { Rating } from "../Rating";
+import React from "react";
+import { Stack } from "../../layout/Stack";
+import { Text } from "../../elements/Text";
+import { formatCurrency } from "../../lib/utils/formatCurrency";
+import styled from "styled-components";
 
 const StyledCard = styled.div`
   width: 100%;
@@ -86,7 +87,8 @@ export const CoffeeCard: React.FC<CoffeeCardProps> = ({ coffee, variant }) => {
           {variant === "buy" && (
             <Stack>
               <Text color="black" italic styles={{ lineHeight: 1.5 }}>
-                {coffee.street} {coffee.zip} {coffee.city}
+                {coffee.address.street} {coffee.address.postal_code}{" "}
+                {coffee.address.city}
               </Text>
               <Inline gap="4px" alignItems="baseline">
                 <Text size="16px">
