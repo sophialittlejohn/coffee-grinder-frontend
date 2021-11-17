@@ -22,7 +22,6 @@ export const loadAutocompleteApi = (
     inputElement,
     options
   );
-  console.log("this is a test");
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
     console.log("place", place);

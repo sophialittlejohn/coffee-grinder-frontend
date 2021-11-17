@@ -56,7 +56,6 @@ export const CoffeeForm: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onCompleted = (data: CreateCoffee) => {
-    console.log("➜ ~ data", data);
     if (data?.createCoffee.name) {
       push("/coffee");
     }
@@ -79,16 +78,6 @@ export const CoffeeForm: React.FC = () => {
           original_extension,
           ...uploadedPhoto
         } = await cloudinaryUpload(photo);
-        // saving doesn't work yet with address
-        console.log({
-          price,
-          grams,
-          rating,
-          coffeeMachineId: Number(user?.coffeeMachines[0].id),
-          photo: uploadedPhoto,
-          address,
-          name,
-        });
         createCoffeeMutation({
           variables: {
             price,
@@ -141,7 +130,7 @@ export const CoffeeForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (inputRef.current && window !== undefined) {
+    if (inputRef.current && typeof window !== "undefined") {
       const autocomplete = loadAutocompleteApi(inputRef.current);
       autocomplete.addListener("place_changed", () => {
         const formattedAddress = formatAddress(autocomplete.getPlace());
