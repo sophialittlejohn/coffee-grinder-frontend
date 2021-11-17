@@ -68,9 +68,9 @@ export const Login: React.FC = () => {
       const { user, token } = dataLogin.login;
       setCookie(null, "token", token, { maxAge: 30 * 24 * 60 * 60 });
       setUser && setUser(user);
-      if (user.primaryMachine) {
-        push("/coffee");
-      }
+      // if (user.primaryMachine) {
+      push("/coffee");
+      // }
     }
   }, [dataLogin, push, setUser]);
 
@@ -98,7 +98,11 @@ export const Login: React.FC = () => {
               value={email}
               onChange={(value) => setEmail(value as string)}
               type="text"
-              errorMessage={errorLogin?.message || errorSignup?.message ? 'Something went wrong' : ''}
+              errorMessage={
+                errorLogin?.message || errorSignup?.message
+                  ? "Something went wrong"
+                  : ""
+              }
               styles={{
                 background: COLORS.lightYellow,
               }}
@@ -109,7 +113,11 @@ export const Login: React.FC = () => {
               onChange={(value) => setPassword(value as string)}
               type={showPassword ? "text" : "password"}
               styles={{ background: COLORS.lightYellow }}
-              errorMessage={errorLogin?.message || errorSignup?.message ? 'Something went wrong' : ''}
+              errorMessage={
+                errorLogin?.message || errorSignup?.message
+                  ? "Something went wrong"
+                  : ""
+              }
               endIcon={
                 <Button
                   tabIndex={-1}

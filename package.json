@@ -43,7 +43,8 @@
     "format:write": "yarn prettier --write .",
     "format:check": "yarn prettier --check .",
     "reinstall": "rm -rf node_modules && yarn install",
-    "upgrade": "yarn upgrade-interactive --latest"
+    "upgrade": "yarn upgrade-interactive --latest",
+    "dev:debug": "NODE_OPTIONS='--inspect' next dev"
   },
   "browserslist": {
     "production": [

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import {
   ApolloClient,
   ApolloLink,
@@ -6,8 +5,10 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { parseCookies } from "nookies";
+
 import { NextPageContext } from "next";
+import { parseCookies } from "nookies";
+import { useMemo } from "react";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -26,12 +27,12 @@ const authLinkWithNextContext = (context: NextPageContext | null) =>
   });
 
 const httpLinkProd = new HttpLink({
-  uri: "https://coffee-grinder.herokuapp.com/", // Server URL (must be absolute)
+  uri: "https://coffee-grinder.herokuapp.com/graphql", // Server URL (must be absolute)
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
 });
 
 const httpLinkDev = new HttpLink({
-  uri: "http://localhost:4000/",
+  uri: "http://localhost:4000/graphql",
   credentials: "same-origin",
 });
 
@@ -50,9 +51,10 @@ function createApolloClient(context: NextPageContext | null) {
 
 export function initializeApollo(
   context: NextPageContext | null = null,
-  initialState: null | {} = null
-) {
+  initialState: null | Record<string, unknown> = null
+): ApolloClient<NormalizedCacheObject> {
   const { token } = parseCookies(context);
+  // TODO: validate token
   if (!token && context?.res) {
     context.res.writeHead(301, {
       Location: "/login",
@@ -78,7 +80,9 @@ export function initializeApollo(
   return _apolloClient;
 }
 
-export function useApollo(initialState: {}) {
+export function useApollo(
+  initialState: Record<string, unknown>
+): ApolloClient<NormalizedCacheObject> {
   const store = useMemo(() => initializeApollo(null, initialState), [
     initialState,
   ]);

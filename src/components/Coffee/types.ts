@@ -7,13 +7,18 @@ type Price = {
   id: number;
 };
 
-type Address = {
+export type Address = {
+  id?: number;
   street: string;
+  street_number: string;
   city: string;
-  zip: string;
+  postal_code: string;
+  country: string;
+  lat: string;
+  lng: string;
 };
 
-export interface Coffee extends Address {
+export interface Coffee {
   id: number;
   name: string;
   rating: number;
@@ -21,6 +26,7 @@ export interface Coffee extends Address {
   coffeeMachine: CoffeeMachine;
   prices: Price[];
   configurations: Configuration[];
+  address: Address;
 }
 
 type CloudinaryImage = {

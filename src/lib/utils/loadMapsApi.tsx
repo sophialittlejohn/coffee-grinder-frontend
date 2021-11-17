@@ -1,4 +1,6 @@
-export const loadSearchBoxApi = (inputElement: HTMLInputElement): void => {
+export const loadAutocompleteApi = (
+  inputElement: HTMLInputElement
+): google.maps.places.Autocomplete => {
   const center = { lat: 47.38022751044705, lng: 8.528475575463064 };
   // Create a bounding box with sides ~10km away from the center point
   const defaultBounds = {
@@ -16,6 +18,14 @@ export const loadSearchBoxApi = (inputElement: HTMLInputElement): void => {
     strictBounds: false,
     types: ["establishment"],
   };
-
-  new window.google.maps.places.SearchBox(inputElement, options);
+  const autocomplete = new window.google.maps.places.Autocomplete(
+    inputElement,
+    options
+  );
+  console.log("this is a test");
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+    console.log("place", place);
+  });
+  return autocomplete;
 };

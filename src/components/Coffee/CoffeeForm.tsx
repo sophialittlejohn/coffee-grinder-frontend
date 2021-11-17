@@ -1,8 +1,8 @@
+import { Address, Coffee } from "./types";
 import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "../../elements/Button";
 import { CREATE_COFFEE_MUTATION } from "./queries";
-import { Coffee } from "./types";
 import { Inline } from "../../layout/Inline";
 import { Input } from "../../elements/Input";
 import { Rating } from "../Rating";
@@ -11,7 +11,7 @@ import { Stack } from "../../layout/Stack";
 import { Text } from "../../elements/Text";
 import { UploadPhoto } from "../../elements/UploadPhoto";
 import { cloudinaryUpload } from "../../lib/utils/cloudinaryUpload";
-import { loadSearchBoxApi } from "../../lib/utils/loadMapsApi";
+import { loadAutocompleteApi } from "../../lib/utils/loadMapsApi";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -44,7 +44,8 @@ type CreateCoffee = {
 
 export const CoffeeForm: React.FC = () => {
   const [name, setName] = useState("");
-  const [street, setStreet] = useState("");
+  const [address, setAddress] = useState<Partial<Address>>({});
+  const [street, setStreet] = useState<string>("");
   const [price, setPrice] = useState("");
   const [grams, setGrams] = useState<number>(GRAM_OPTIONS[0].value);
   const [rating, setRating] = useState<number>();
@@ -55,7 +56,8 @@ export const CoffeeForm: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onCompleted = (data: CreateCoffee) => {
-    if (data.createCoffee.name) {
+    console.log("➜ ~ data", data);
+    if (data?.createCoffee.name) {
       push("/coffee");
     }
   };
@@ -69,19 +71,33 @@ export const CoffeeForm: React.FC = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (photo && name && street && price && rating) {
+    if (photo && name && address.street && price && rating) {
       try {
         // tags are not in db yet
-        const { tags, ...uploadedPhoto } = await cloudinaryUpload(photo);
+        const {
+          tags,
+          original_extension,
+          ...uploadedPhoto
+        } = await cloudinaryUpload(photo);
+        // saving doesn't work yet with address
+        console.log({
+          price,
+          grams,
+          rating,
+          coffeeMachineId: Number(user?.coffeeMachines[0].id),
+          photo: uploadedPhoto,
+          address,
+          name,
+        });
         createCoffeeMutation({
           variables: {
-            name,
-            street,
             price,
             grams,
             rating,
             coffeeMachineId: Number(user?.coffeeMachines[0].id),
             photo: uploadedPhoto,
+            address,
+            name,
           },
         });
       } catch (error) {
@@ -92,9 +108,46 @@ export const CoffeeForm: React.FC = () => {
     }
   };
 
+  const formatAddress = (
+    place: google.maps.places.PlaceResult
+  ): Partial<Address> => {
+    if (place.address_components) {
+      const address = place.address_components.reduce<Partial<Address>>(
+        (prev, curr) => {
+          let key = curr.types[0];
+          if (key.includes("administrative_area")) {
+            return prev;
+          }
+          if (key === "route") {
+            key = "street";
+          } else if (key === "locality") {
+            key = "city";
+          }
+          return {
+            ...prev,
+            [key]: curr.long_name,
+          };
+        },
+        {}
+      );
+
+      const lat = `${place.geometry?.location?.lat()}`;
+      const lng = `${place.geometry?.location?.lng()}`;
+
+      return { ...address, lat, lng };
+    } else {
+      return {};
+    }
+  };
+
   useEffect(() => {
-    if (inputRef.current && window) {
-      loadSearchBoxApi(inputRef.current);
+    if (inputRef.current && window !== "undefined") {
+      const autocomplete = loadAutocompleteApi(inputRef.current);
+      autocomplete.addListener("place_changed", () => {
+        const formattedAddress = formatAddress(autocomplete.getPlace());
+        console.log("➜ ~ formattedAddress", formattedAddress);
+        setAddress(formattedAddress);
+      });
     }
   }, [inputRef]);
 
@@ -119,12 +172,16 @@ export const CoffeeForm: React.FC = () => {
           Where did you buy the coffee?
         </Text>
         <Input
+          id="pac-input"
           label=""
           ref={inputRef}
           type="text"
           placeholder="Name or address of coffee shop"
           value={street}
-          onChange={(value) => setStreet(value as string)}
+          onChange={(value) => {
+            console.log("vale", value);
+            setStreet(value as string);
+          }}
         />
       </Stack>
       <Inline alignItems="center" gap="12px">

@@ -1,4 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
+import { AppProps } from "next/app";
 import { COLORS } from "../materials/colors";
 import { ContextUser } from "../lib/userContext";
 import React from "react";
@@ -60,8 +61,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-// @ts-ignore
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <ApolloProvider client={apolloClient}>
@@ -71,4 +71,6 @@ export default function App({ Component, pageProps }) {
       </ContextUser>
     </ApolloProvider>
   );
-}
+};
+
+export default App;
