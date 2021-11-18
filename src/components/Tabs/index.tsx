@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { TabsContext, useTabsContext } from "./useTabsContext";
+
 import { Button } from "../../elements/Button";
-import { TabsContext, useTabsContext } from "./context";
+import styled from "styled-components";
 
 type TabsProps = {
   defaultActive?: string;

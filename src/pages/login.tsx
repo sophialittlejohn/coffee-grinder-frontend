@@ -1,10 +1,9 @@
-import React from "react";
-import { NextPage } from "next";
-
 import { Login } from "../components/Login";
+import { NextPage } from "next";
 import { PageLayout } from "../components/Layout/PageLayout";
+import React from "react";
 
-const LoginPage: NextPage = (props) => {
+const LoginPage: NextPage = () => {
   return (
     <PageLayout title="" background="login">
       <Login />

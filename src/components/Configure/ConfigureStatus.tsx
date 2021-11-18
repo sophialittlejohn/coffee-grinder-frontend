@@ -1,7 +1,7 @@
+import { COLORS } from "../../materials/colors";
+import { Inline } from "../../layout/Inline";
 import React from "react";
 import styled from "styled-components";
-import { Inline } from "../../layout/Inline";
-import { COLORS } from "../../materials/colors";
 import { useConfiguration } from "./useConfiguration";
 
 const StyledChipLabel = styled.label<{ checked: boolean }>`
@@ -23,7 +23,6 @@ const StyledChipLabel = styled.label<{ checked: boolean }>`
     background-color: ${COLORS.white};
     color: ${COLORS.black};
   `}
-  }
 
   &:active,
   &:focus {
@@ -36,9 +35,7 @@ const StyledChipLabel = styled.label<{ checked: boolean }>`
   }
 `;
 
-type ConfigureStatusProps = {};
-
-export const ConfigureStatus: React.FC<ConfigureStatusProps> = () => {
+export const ConfigureStatus: React.FC = () => {
   const { configure, status } = useConfiguration();
 
   return (

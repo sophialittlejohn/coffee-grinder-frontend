@@ -1,4 +1,4 @@
-export const formatCurrency = (rawNumber: number) => {
+export const formatCurrency = (rawNumber: number): string => {
   const CHF = new Intl.NumberFormat("de-CH", {
     style: "currency",
     currency: "CHF",

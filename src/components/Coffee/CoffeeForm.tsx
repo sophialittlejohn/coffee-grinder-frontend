@@ -11,6 +11,7 @@ import { Stack } from "../../layout/Stack";
 import { Text } from "../../elements/Text";
 import { UploadPhoto } from "../../elements/UploadPhoto";
 import { cloudinaryUpload } from "../../lib/utils/cloudinaryUpload";
+import { formatAddress } from "../../lib/utils/formatAddress";
 import { loadAutocompleteApi } from "../../lib/utils/loadMapsApi";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
@@ -43,6 +44,7 @@ type CreateCoffee = {
 };
 
 export const CoffeeForm: React.FC = () => {
+  const [googleLoaded, setGoogleLoaded] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState<Partial<Address>>({});
   const [street, setStreet] = useState<string>("");
@@ -97,48 +99,20 @@ export const CoffeeForm: React.FC = () => {
     }
   };
 
-  const formatAddress = (
-    place: google.maps.places.PlaceResult
-  ): Partial<Address> => {
-    if (place.address_components) {
-      const address = place.address_components.reduce<Partial<Address>>(
-        (prev, curr) => {
-          let key = curr.types[0];
-          if (key.includes("administrative_area")) {
-            return prev;
-          }
-          if (key === "route") {
-            key = "street";
-          } else if (key === "locality") {
-            key = "city";
-          }
-          return {
-            ...prev,
-            [key]: curr.long_name,
-          };
-        },
-        {}
-      );
-
-      const lat = `${place.geometry?.location?.lat()}`;
-      const lng = `${place.geometry?.location?.lng()}`;
-
-      return { ...address, lat, lng };
-    } else {
-      return {};
-    }
-  };
-
   useEffect(() => {
     if (inputRef.current && typeof window !== "undefined") {
+      // doesn't work on client side navigation b/c window.google is undefined
       const autocomplete = loadAutocompleteApi(inputRef.current);
       autocomplete.addListener("place_changed", () => {
-        const formattedAddress = formatAddress(autocomplete.getPlace());
-        console.log("➜ ~ formattedAddress", formattedAddress);
+        const place = autocomplete.getPlace();
+        const formattedAddress = formatAddress(place);
         setAddress(formattedAddress);
+        setStreet(
+          `${place.name}, ${formattedAddress.street} ${formattedAddress.city}`
+        );
       });
     }
-  }, [inputRef]);
+  }, []);
 
   return (
     <StyledForm gap="24px" justifyContent="flex-end">
@@ -168,7 +142,6 @@ export const CoffeeForm: React.FC = () => {
           placeholder="Name or address of coffee shop"
           value={street}
           onChange={(value) => {
-            console.log("vale", value);
             setStreet(value as string);
           }}
         />

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const COFFEE_LIST_QUERY = gql`
-  query coffeeQuery {
+  query CoffeeQuery {
     coffee(orderBy: { updatedAt: desc }) {
       id
       name
@@ -58,7 +58,7 @@ export const COFFEE_DETAIL_QUERY = gql`
 `;
 
 export const UPDATE_COFFEE_MUTATION = gql`
-  mutation updateCoffee(
+  mutation UpdateCoffee(
     $id: Int
     $size: String
     $amount: String

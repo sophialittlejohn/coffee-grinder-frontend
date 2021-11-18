@@ -142,11 +142,8 @@ const CoffeePage: NextPage = () => {
   );
 };
 
-export async function getServerSideProps(
-  context: NextPageContext
-): Promise<ApolloServerSideProps> {
+export async function getServerSideProps(context: NextPageContext) {
   const apolloClient = initializeApollo(context);
-  // verify token, send user data
 
   try {
     await apolloClient.query({
@@ -162,7 +159,7 @@ export async function getServerSideProps(
     console.error("ERROR", error);
     return {
       props: {
-        error: error.message,
+        error: "Error",
       },
     };
   }

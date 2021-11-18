@@ -4,13 +4,9 @@ import Head from "next/head";
 import { NextPage } from "next";
 import { PageLayout } from "../../components/Layout/PageLayout";
 import React from "react";
-import getConfig from "next/config";
-
 interface NewCoffeeProps {
   coffees: Coffee[];
 }
-
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 const NewCoffeePage: NextPage<NewCoffeeProps> = () => {
   return (
@@ -18,10 +14,7 @@ const NewCoffeePage: NextPage<NewCoffeeProps> = () => {
       <Head>
         <title>New beans</title>
         <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${
-            serverRuntimeConfig.googlePlacesApiKey ||
-            publicRuntimeConfig.googlePlacesApiKey
-          }&libraries=places`}
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&libraries=places`}
         ></script>
       </Head>
       <PageLayout title="Add new beans" withAuth goBack="/coffee">

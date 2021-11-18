@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+
 import { Status } from "./types";
 
 type SizeConfig = {
@@ -75,5 +76,10 @@ export const ConfigurationProvider: React.FC<Configuration> = (props) => {
 
 export const useConfiguration = (): ConfigureContext => {
   const context = useContext(ConfigurationContext);
+  if (!context) {
+    throw new Error(
+      `useConfiguration compound components cannot be rendered outside the Configuration component`
+    );
+  }
   return context;
 };
